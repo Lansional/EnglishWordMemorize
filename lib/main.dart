@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:english_word_memorize/router.dart';
-import 'homepage/myhomepage.dart';
+import 'router.dart';
+import 'myhomepage.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,6 +13,10 @@ class MyApp extends StatelessWidget {
       title: '단어공부',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.blue,
+          textTheme: ButtonTextTheme.primary
+        )
       ),
       onGenerateRoute: onGenerateRoute,
       home: MyHomePage(),

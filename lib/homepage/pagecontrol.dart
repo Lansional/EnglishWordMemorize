@@ -1,31 +1,19 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+class PageControl extends StatefulWidget {
+  PageControl({Key key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _PageControlState createState() => _PageControlState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  var _scaffoldKey = new GlobalKey<ScaffoldState>();
+class _PageControlState extends State<PageControl> {
 
   double _cardWidth = 850;      // 넓이
   double _cardHeight = 400;     // 높이
-  double _cardTextSize = 90;
-
-  // Homepage Drawer
-  _drawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-
-        ],
-      ),
-    );
-  }
+  double _cardTextSize = 90;    // 글꼴 크기
 
   // Write in English for Korean report.
   _cardToEngTap() {
@@ -38,11 +26,13 @@ class _MyHomePageState extends State<MyHomePage> {
           print('한글보고 영어 쓰기');
         },
         child: Card(
+          color: Theme.of(context).primaryColor,
           child: Center(
             child: Text(
               '한글보고 영어 쓰기',
               style: TextStyle(
-                fontSize: _cardTextSize.sp
+                fontSize: _cardTextSize.sp,
+                color: Colors.white
               ),
             ),
           ),
@@ -66,7 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text(
               '영어보고 한글 쓰기',
               style: TextStyle(
-                fontSize: _cardTextSize.sp
+                fontSize: _cardTextSize.
+                sp
               ),
             ),
           ),
@@ -78,38 +69,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, allowFontScaling: true);           // width : 1080px, height : 1920px
-
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: Colors.green,
-      drawer: _drawer(),
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 30,
-            child: IconButton(
-              color: Colors.white,
-              icon: Icon(Icons.menu), 
-              onPressed: () {
-                _scaffoldKey.currentState.openDrawer();
-              }
-            )
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _cardToEngTap(),
-                SizedBox(
-                  height: 60.h,
-                ),
-                _cardToKorTap()
-              ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _cardToEngTap(),
+            SizedBox(
+              height: 100.h,
             ),
-          ),
-        ],
-      )
+            _cardToKorTap()
+          ],
+        ),
+      ),
     );
   }
 }
