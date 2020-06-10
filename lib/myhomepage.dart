@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
@@ -10,12 +11,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _key = new GlobalKey<ScaffoldState>();
+  final _googleSignIn = new GoogleSignIn();
+
+  GoogleSignInAccount _currentUser;
   
   double _cardWidth = 850;      // 넓이
   double _cardHeight = 400;     // 높이
   double _cardTextSize = 85;    // 글꼴 크기
 
   double _everyButtonHeight = 45;  // 버튼 간격
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
 
   // Write in English for Korean report.
   _cardToEngTap() {
@@ -91,10 +103,19 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage('https://simpleicon.com/wp-content/uploads/account.png'),
+              backgroundImage: _currentUser == null ? NetworkImage('https://simpleicon.com/wp-content/uploads/account.png') : NetworkImage('${_currentUser.photoUrl}'),
             ),
-            accountName: Text('null'),
-            accountEmail: Text('null')
+            accountName: _currentUser == null ? Text('') : Text('${_currentUser.displayName}'),
+            accountEmail: _currentUser == null ? Text('로그인') : Text('${_currentUser.email}'),
+            onDetailsPressed: _currentUser == null ? () {
+              _handleSignIn();
+              _googleSignIn.onCurrentUserChanged.listen((event) {
+                setState(() {
+                  print('$event');
+                  _currentUser = event;
+                });
+              });
+            } : null,
           ),
           ListTile(
             title: Text('캘린더'),
