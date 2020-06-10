@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         )
       ),
       onGenerateRoute: onGenerateRoute,
+      initialRoute: '/startPage',
       home: MyHomePage(),
     );
   }
