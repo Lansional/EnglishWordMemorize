@@ -21,6 +21,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   double _everyButtonHeight = 45;  // 버튼 간격
 
+  @override
+  void initState() { 
+    super.initState();
+    
+    _accountLoginErrorClick();
+  }
+
+  _accountLoginErrorClick() {
+    _handleSignIn();
+    _googleSignIn.onCurrentUserChanged.listen((event) {
+      setState(() {
+        _currentUser = event;
+      });
+    });
+  }
+
   Future<void> _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
@@ -92,8 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // PageDrawer
   _pageDrawer() {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
@@ -108,29 +123,45 @@ class _MyHomePageState extends State<MyHomePage> {
             accountName: _currentUser == null ? Text('') : Text('${_currentUser.displayName}'),
             accountEmail: _currentUser == null ? Text('로그인') : Text('${_currentUser.email}'),
             onDetailsPressed: _currentUser == null ? () {
-              _handleSignIn();
-              _googleSignIn.onCurrentUserChanged.listen((event) {
-                setState(() {
-                  print('$event');
-                  _currentUser = event;
-                });
-              });
+              _accountLoginErrorClick();
             } : null,
           ),
-          ListTile(
-            title: Text('캘린더'),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.calendar_today),
+                  title: Text('캘린더'),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {
 
-            },
+                  },
+                ),
+              ],
+            )
           ),
-          ListTile(
-            title: Text('설정'),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {
+          Divider(),
+          ButtonBar(
+            buttonPadding: EdgeInsets.zero,
+            alignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              FlatButton.icon(
+                icon: Icon(Icons.settings),
+                label: Text('설정'),
+                onPressed: () {
 
-            },
-          ),
+                }
+              ),
+              FlatButton(
+                onPressed: () {
+                  _googleSignIn.disconnect();
+                },
+                child: Text('로그아웃'),
+                textColor: Colors.red,
+              )
+            ],
+          )
         ],
       )
     );
