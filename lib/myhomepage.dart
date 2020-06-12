@@ -1,3 +1,4 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -10,16 +11,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _key = new GlobalKey<ScaffoldState>();
+  final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _googleSignIn = new GoogleSignIn();
 
   GoogleSignInAccount _currentUser;
   
-  double _cardWidth = 850;      // 넓이
-  double _cardHeight = 400;     // 높이
-  double _cardTextSize = 85;    // 글꼴 크기
+  double _cardWidth = 850;
+  double _cardHeight = 400;
+  double _cardTextSize = 85;
 
-  double _everyButtonHeight = 45;  // 버튼 간격
+  double _everyButtonHeight = 45;
+
+  SnackBar _snackBar = SnackBar(
+    content: Text('한번더 클릭해 나가기!'),
+    duration: Duration(seconds: 3),
+  );
 
   @override
   void initState() { 
@@ -28,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _accountLoginErrorClick();
   }
 
+  // google account login
   _accountLoginErrorClick() {
     _handleSignIn();
     _googleSignIn.onCurrentUserChanged.listen((event) {
@@ -135,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: Text('캘린더'),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
-
+                    Navigator.pushNamed(context, '/calendarPage');
                   },
                 ),
               ],
@@ -167,49 +174,57 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  _stackChild() {
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.only(top: 140.w),
+            child: IconButton(
+              icon: Icon(Icons.menu),
+              color: Colors.white,
+              onPressed: () {
+                _scaffoldKey.currentState.openDrawer();
+              }
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _cardToEngTap(),
+                SizedBox(
+                  height: _everyButtonHeight.h,
+                ),
+                _cardToKorTap(),  
+                SizedBox(
+                  height: _everyButtonHeight.h,
+                ),
+                _vocabularyNote()
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
 
     return Scaffold(
-      key: _key,
+      key: _scaffoldKey,
       drawer: _pageDrawer(),
       backgroundColor: Colors.green,
-      body: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.only(top: 50.w),
-              child: IconButton(
-                icon: Icon(Icons.menu),
-                color: Colors.white,
-                onPressed: () {
-                  _key.currentState.openDrawer();
-                }
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  _cardToEngTap(),
-                  SizedBox(
-                    height: _everyButtonHeight.h,
-                  ),
-                  _cardToKorTap(),
-                  SizedBox(
-                    height: _everyButtonHeight.h,
-                  ),
-                  _vocabularyNote()
-                ],
-              ),
-            ),
-          )
-        ],
+      body: DoubleBackToCloseApp(
+        snackBar: _snackBar,
+        
+        child: _stackChild(),
       )
     );
   }
