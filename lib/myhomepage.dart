@@ -1,7 +1,9 @@
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:toast/toast.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
@@ -22,10 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   double _everyButtonHeight = 45;
 
-  SnackBar _snackBar = SnackBar(
-    content: Text('한번더 클릭해 나가기!'),
-    duration: Duration(seconds: 3),
-  );
+  DateTime _backbuttonpressedTime;
 
   @override
   void initState() { 
@@ -180,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: EdgeInsets.only(top: 140.w),
+            padding: EdgeInsets.only(top: ScreenUtil.screenHeightDp - 1850.h),        // any device height
             child: IconButton(
               icon: Icon(Icons.menu),
               color: Colors.white,
@@ -221,11 +220,23 @@ class _MyHomePageState extends State<MyHomePage> {
       key: _scaffoldKey,
       drawer: _pageDrawer(),
       backgroundColor: Colors.green,
-      body: DoubleBackToCloseApp(
-        snackBar: _snackBar,
-        
-        child: _stackChild(),
+      body: WillPopScope(
+        child: _stackChild(), 
+        onWillPop: _onWillPop
       )
     );
   }
+
+  // double back to close
+  Future<bool> _onWillPop() async {
+    if (_backbuttonpressedTime == null || DateTime.now().difference(_backbuttonpressedTime) > Duration(seconds: 2)){
+      _backbuttonpressedTime = DateTime.now();
+      Toast.show('두번 눌러 앱 종료하기!', context);
+    } else {
+      _backbuttonpressedTime = DateTime.now();
+      // exit
+      await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    }
+  }
+
 }
