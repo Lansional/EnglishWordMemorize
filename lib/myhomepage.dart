@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -6,7 +7,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:toast/toast.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key key, this.firestore}) : super(key: key);
+
+  final Firestore firestore;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -85,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         onPressed: () {
           print('영어보고 한글 쓰기');
+          Navigator.pushNamed(context, '/englishWord');
         },
         elevation: 10,
         child: Text('영어보고 한글 쓰기' , style: TextStyle(fontSize: _cardTextSize.sp)),
