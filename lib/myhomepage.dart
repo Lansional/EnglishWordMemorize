@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -7,9 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:toast/toast.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.firestore}) : super(key: key);
-
-  final Firestore firestore;
+  MyHomePage({Key key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -67,10 +64,10 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ),
         onPressed: () {
-          print('한글보고 영어 쓰기');
+          print('한글보고 영어 단어 쓰기');
         },
         elevation: 10,
-        child: Text('한글보고 영어 쓰기' , style: TextStyle(fontSize: _cardTextSize.sp)),
+        child: Text('한글보고 영어 단어 쓰기' , textAlign: TextAlign.center, style: TextStyle(fontSize: _cardTextSize.sp)),
       )
     );
   }
@@ -87,11 +84,10 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ),
         onPressed: () {
-          print('영어보고 한글 쓰기');
-          Navigator.pushNamed(context, '/englishWord');
+          print('영어보고 뜻 쓰기');
         },
         elevation: 10,
-        child: Text('영어보고 한글 쓰기' , style: TextStyle(fontSize: _cardTextSize.sp)),
+        child: Text('영어보고 뜻 쓰기' , style: TextStyle(fontSize: _cardTextSize.sp)),
       )
     );
   }
@@ -107,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ),
         onPressed: () {
-          print('단어장');
+          Navigator.pushNamed(context, '/englishWord');
         },
         elevation: 10,
         child: Text('단어장' , style: TextStyle(fontSize: _cardTextSize.sp)),
@@ -145,6 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: Text('캘린더'),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
+                    Navigator.pop(context);
                     Navigator.pushNamed(context, '/calendarPage');
                   },
                 ),
@@ -160,7 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(Icons.settings),
                 label: Text('설정'),
                 onPressed: () {
-
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/settingPage');
                 }
               ),
               FlatButton(
@@ -242,5 +240,4 @@ class _MyHomePageState extends State<MyHomePage> {
       await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     }
   }
-
 }
