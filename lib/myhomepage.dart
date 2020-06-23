@@ -26,6 +26,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   DateTime _backbuttonpressedTime;
 
+  var _cardSide = BorderSide(
+    color: Colors.white,
+    width: 4
+  );
+
   @override
   void initState() { 
     super.initState();
@@ -56,18 +61,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       width: _cardWidth.w,
       height: _cardHeight.h,
-      margin: EdgeInsets.only(top: 50),
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(80.w)
-          )
+          ),
+          side: _cardSide
         ),
         onPressed: () {
-          print('한글보고 영어 단어 쓰기');
+          print('한글보고 영어 쓰기');
         },
         elevation: 10,
-        child: Text('한글보고 영어 단어 쓰기' , textAlign: TextAlign.center, style: TextStyle(fontSize: _cardTextSize.sp)),
+        child: Text('한글보고 영어 쓰기' , textAlign: TextAlign.center, style: TextStyle(fontSize: _cardTextSize.sp)),
       )
     );
   }
@@ -81,10 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(80.w)
-          )
+          ),
+          side: _cardSide
         ),
         onPressed: () {
-          print('영어보고 뜻 쓰기');
+          Navigator.pushNamed(context, '/englishMeaning');
         },
         elevation: 10,
         child: Text('영어보고 뜻 쓰기' , style: TextStyle(fontSize: _cardTextSize.sp)),
@@ -100,7 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(80.w)
-          )
+          ),
+          side: _cardSide
         ),
         onPressed: () {
           Navigator.pushNamed(context, '/englishWord');
@@ -197,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                _cardToEngTap(),
+                _vocabularyNote(),
                 SizedBox(
                   height: _everyButtonHeight.h,
                 ),
@@ -205,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: _everyButtonHeight.h,
                 ),
-                _vocabularyNote()
+                _cardToEngTap(),
               ],
             ),
           ),

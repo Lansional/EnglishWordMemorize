@@ -1,3 +1,4 @@
+import 'package:english_word_memorize/wordpage/english_meaning.dart';
 import 'package:english_word_memorize/wordpage/english_word.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ final routes = {
   '/startPage' : (context) => StartPage(),                  // 시작 페이지 (initroute)
 
   '/englishWord': (context) => EnglishWordToKorean(),
+  '/englishMeaning': (context) => EnglishMeaning(),
 
   '/calendarPage': (context) => CalendarPage(),    // 캘린더 페이지
   '/settingPage': (context) => SettingPage(),      // 설정 페이지

@@ -5,3 +5,6 @@ firebase_core=E:\\Result\\Framework\\flutter\\.pub-cache\\hosted\\pub.dartlang.o
 firebase_core_web=E:\\Result\\Framework\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core_web-0.1.1+2\\
 google_sign_in=E:\\Result\\Framework\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\google_sign_in-4.5.1\\
 google_sign_in_web=E:\\Result\\Framework\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\google_sign_in_web-0.9.1+1\\
+shared_preferences=E:\\Result\\Framework\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\shared_preferences-0.5.7+3\\
+shared_preferences_macos=E:\\Result\\Framework\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\shared_preferences_macos-0.0.1+10\\
+shared_preferences_web=E:\\Result\\Framework\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\shared_preferences_web-0.1.2+7\\

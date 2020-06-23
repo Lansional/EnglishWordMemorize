@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EnglishWordToKorean extends StatefulWidget {
@@ -46,7 +46,6 @@ class _EnglishWordToKoreanState extends State<EnglishWordToKorean> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.green,
       body: _word == null && _wordKey == null && _wordValue == null ? Center(
