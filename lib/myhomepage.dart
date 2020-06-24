@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _cardToEngTap() {
     return Container(
       width: _cardWidth.w,
-      height: _cardHeight.h,
+      height: _cardHeight.h,  
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
           side: _cardSide
         ),
         onPressed: () {
-          Navigator.pushNamed(context, '/englishWord');
+          Navigator.pushNamed(context, '/wordUnitChoose');
         },
         elevation: 10,
         child: Text('단어장' , style: TextStyle(fontSize: _cardTextSize.sp)),
@@ -226,9 +226,9 @@ class _MyHomePageState extends State<MyHomePage> {
     ScreenUtil.init(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.green : null,
       key: _scaffoldKey,
       drawer: _pageDrawer(),
-      backgroundColor: Colors.green,
       body: WillPopScope(
         child: _stackChild(), 
         onWillPop: _onWillPop

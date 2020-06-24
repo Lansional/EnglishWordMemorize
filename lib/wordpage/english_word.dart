@@ -4,14 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class EnglishWordToKorean extends StatefulWidget {
-  EnglishWordToKorean({Key key}) : super(key: key);
+class EnglishWord extends StatefulWidget {
+  EnglishWord({Key key, this.documents}) : super(key: key);
+
+  final String documents;
 
   @override
-  _EnglishWordToKoreanState createState() => _EnglishWordToKoreanState();
+  _EnglishWordState createState() => _EnglishWordState();
 }
 
-class _EnglishWordToKoreanState extends State<EnglishWordToKorean> {
+class _EnglishWordState extends State<EnglishWord> {
   final databaseReference = Firestore.instance;
 
   Map _word;
@@ -29,11 +31,10 @@ class _EnglishWordToKoreanState extends State<EnglishWordToKorean> {
   // get data at firebase cloudstore
   void getData() {
     databaseReference
-        .collection('word')
-        .getDocuments()
-        .then((QuerySnapshot snapshot) {
-      snapshot.documents.forEach((f) {
-        // print('${f.data}');
+      .collection('word')
+      .document('${widget.documents}')
+      .get()
+      .then((f) {
         setState(() {
           this._word = f.data;
 
@@ -41,7 +42,6 @@ class _EnglishWordToKoreanState extends State<EnglishWordToKorean> {
           this._wordValue = _word.values.toList();
         });
       });
-    });
   }
 
   @override

@@ -15,9 +15,10 @@ class MyApp extends StatelessWidget {
       data: (brightness) => ThemeData(
         primarySwatch: Colors.blue,
         brightness: brightness,
+        primaryColorDark: Colors.black,
         buttonTheme: ButtonThemeData(
           buttonColor: Colors.blue,
-          textTheme: ButtonTextTheme.primary
+          textTheme: ButtonTextTheme.primary,
         )
       ),
       themedWidgetBuilder: (context, theme) {

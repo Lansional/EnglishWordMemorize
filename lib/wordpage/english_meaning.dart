@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EnglishMeaning extends StatefulWidget {
-  EnglishMeaning({Key key}) : super(key: key);
+  EnglishMeaning({Key key, this.unit}) : super(key: key);
+
+  final String unit;
 
   @override
   _EnglishMeaningState createState() => _EnglishMeaningState();
