@@ -22,7 +22,7 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.green : null,
       body: Stack(
         children: <Widget>[
           Align(
@@ -31,6 +31,9 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
               width: ScreenUtil.screenWidth,
               height: 1200.h,
               child: Swiper(
+                control: SwiperControl(
+                  color: Colors.black
+                ),
                 itemBuilder: (context, index) {
                   return InkWell(
                     child: Card(
@@ -38,17 +41,21 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
                         borderRadius: BorderRadius.circular(20),
                         side: BorderSide(
                           width: 30.w,
-                          color: Theme.of(context).primaryColor
+                          color: Colors.white
                         ),
                       ),
+                      color: Colors.blue,
                       elevation: 4,
-                      child: Center(
-                        child: Text(
-                          '${_documentsName[index]}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 160.sp
-                          )
+                      child: Container(
+                        child: Center(
+                          child: Text(
+                            '${_documentsName[index]}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 160.sp
+                            )
+                          ),
                         ),
                       )
                     ),
@@ -60,7 +67,6 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
                         case 1:
                           Navigator.pushNamed(context, '/englishWord', arguments: 'unit 11');
                           break;
-                          
                         default:                        
                       }
                     },
@@ -82,6 +88,19 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
               child: BackButton(color: Colors.white)
             ),
           ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 50.w),
+              child: Text(
+                '카드를 클릭하세요',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 50.sp
+                ),
+              ),
+            )
+          )
         ],
       )
     );
