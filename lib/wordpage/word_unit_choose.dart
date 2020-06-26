@@ -14,7 +14,7 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
 
   List _documentsName = [
     '수능',
-    'unit 11',
+    'Unit 12',
     '',
     ''
   ];
@@ -65,7 +65,7 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
                           Navigator.pushNamed(context, '/englishWord', arguments: 'CSAT');
                           break;
                         case 1:
-                          Navigator.pushNamed(context, '/englishWord', arguments: 'unit 11');
+                          Navigator.pushNamed(context, '/englishWord', arguments: '${_documentsName[1]}');
                           break;
                         default:                        
                       }
@@ -76,7 +76,7 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
                 scale: 0.9,
                 itemCount: _documentsName.length,
                 pagination: SwiperPagination(
-                  margin: EdgeInsets.only(bottom: 50.w)
+                  margin: EdgeInsets.only(top: 10.w)
                 ),
               ),
             )

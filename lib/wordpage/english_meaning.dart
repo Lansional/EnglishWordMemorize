@@ -16,6 +16,12 @@ class EnglishMeaning extends StatefulWidget {
 class _EnglishMeaningState extends State<EnglishMeaning> {
   final databaseReference = Firestore.instance;
 
+  final SwiperController _swiperController = new SwiperController();
+  final TextEditingController _textEditingController = new TextEditingController();
+
+  Animation<double> _animation;
+  AnimationController _animationController;
+
   int _cardWidth = 800;
   int _cardHeight = 1300;
 
@@ -28,6 +34,8 @@ class _EnglishMeaningState extends State<EnglishMeaning> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    // _animation = new 
 
     getData();
   }
@@ -57,54 +65,72 @@ class _EnglishMeaningState extends State<EnglishMeaning> {
         children: <Widget>[
           Align(
             alignment: Alignment.center,
-            child: Swiper(
-              layout: SwiperLayout.CUSTOM,
-              customLayoutOption: new CustomLayoutOption(
+            child: IgnorePointer(
+              child: Swiper(
+                layout: SwiperLayout.CUSTOM,
+                customLayoutOption: new CustomLayoutOption(
                   startIndex: -1,
                   stateCount: 3
-              ).addRotate([
-                -45.0/180,
-                0.0,
-                45.0/180
-              ]).addTranslate([
-                new Offset(-370.0, -40.0),
-                new Offset(0.0, 0.0),
-                new Offset(370.0, -40.0)
-              ]),
-              itemWidth: _cardWidth.w,
-              itemHeight: _cardHeight.h,
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    // side: BorderSide(
-                    //   width: 20.w,
-                    //   color: Theme.of(context).primaryColor
-                    // ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text('${_wordKey[index]}', style: TextStyle(
-                        fontSize: 135.sp
-                      )),
-                      Container(
-                        width: 600.h,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)
-                            )
-                          ),
+                ).addRotate([
+                  -45.0/180,
+                  0.0,
+                  45.0/180
+                ]).addTranslate([
+                  new Offset(-370.0, -40.0),
+                  new Offset(0.0, 0.0),
+                  new Offset(370.0, -40.0)
+                ]),
+                itemWidth: _cardWidth.w,
+                itemHeight: _cardHeight.h,
+                loop: false,
+                pagination: SwiperPagination(),
+                controller: _swiperController,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      // side: BorderSide(
+                      //   width: 20.w,
+                      //   color: Theme.of(context).primaryColor
+                      // ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('${_wordKey[index]}', style: TextStyle(
+                          fontSize: 135.sp
+                        )),
+                        SizedBox(
+                          height: 500.h,
                         ),
-                      )
-                    ],
+                        Icon(Icons.add, size: 150.w)
+                      ],
+                    ),
+                  );
+                },
+                itemCount: _word.length
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: 600.h,
+              child: TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10)
                   ),
-                );
-              },
-              itemCount: _word.length
+                ),
+                onSubmitted: (str) {        // keyboard enter
+                  _swiperController.next();
+                  setState(() {
+                    _textEditingController.text = '';
+                  });
+                },
+              ),
             ),
           )
         ],
