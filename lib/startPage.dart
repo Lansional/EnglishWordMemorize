@@ -31,6 +31,15 @@ class _StartPageState extends State<StartPage> {
           width: size.w,
           child: Card(
             color: Theme.of(context).primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(80.w)
+              ),
+              side: BorderSide(
+                width: 10.w,
+                color: Colors.white
+              )
+            ),
             child: Center(
               child: Text(
                 '영어           단어장',
