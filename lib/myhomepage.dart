@@ -90,7 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
           side: _cardSide
         ),
         onPressed: () {
-          Navigator.pushNamed(context, '/englishMeaning');
+          Navigator.pushNamed(context, '/validator', arguments: {
+            'what': 'english'
+          });
         },
         elevation: 10,
         child: Text('영어보고 뜻 쓰기' , style: TextStyle(fontSize: _cardTextSize.sp)),
@@ -140,20 +142,15 @@ class _MyHomePageState extends State<MyHomePage> {
             } : null,
           ),
           Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.calendar_today),
-                  title: Text('캘린더'),
-                  trailing: Icon(Icons.chevron_right),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/calendarPage');
-                  },
-                ),
-              ],
-            )
+            child: ListTile(
+              leading: Icon(Icons.calendar_today),
+              title: Text('캘린더'),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/calendarPage');
+              },
+            ),
           ),
           Divider(),
           ButtonBar(

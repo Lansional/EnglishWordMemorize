@@ -8,7 +8,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 class EnglishMeaning extends StatefulWidget {
   EnglishMeaning({Key key, this.unit}) : super(key: key);
 
-  final String unit;
+  final Map unit;
 
   @override
   _EnglishMeaningState createState() => _EnglishMeaningState();
@@ -23,17 +23,15 @@ class _EnglishMeaningState extends State<EnglishMeaning> with SingleTickerProvid
   final TextEditingController _textEditingController = new TextEditingController();
 
   // Animation<double> _animation;
-  AnimationController _animationController;
-
-  int _cardWidth = 800;
-  int _cardHeight = 1300;
+  // AnimationController _animationController;
 
   Map _word;
 
   List _wordKey;
   List _wordValue;
 
-  var _scoreCheck = <bool>[];
+  var _text = <String>[];
+  var _cardList = <Widget>[];
 
   @override
   void initState() {
@@ -48,12 +46,13 @@ class _EnglishMeaningState extends State<EnglishMeaning> with SingleTickerProvid
     // );
 
     _getData();
+
   }
 
   void _getData() {
     databaseReference
       .collection('word')
-      .document('CSAT')
+      .document('Unit 12')
       .get()
       .then((f) {
         setState(() {
@@ -61,13 +60,78 @@ class _EnglishMeaningState extends State<EnglishMeaning> with SingleTickerProvid
 
           this._wordKey = _word.keys.toList();
           this._wordValue = _word.values.toList();
+          for (int i = 0; i < _wordKey.length; i++) {
+            this._cardList.add(_swiperCardChildren(i));
+          }
         });
       });
   }
 
+  _swiperCardChildren(int index) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(30, 40, 30, 25),
+      child: Card(
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(
+            width: 20.w,
+            color: Theme.of(context).primaryColor
+          ),
+        ),
+        child: Stack(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.center,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 200.h,
+                  ),
+                  Text('${_wordKey[index]}', style: TextStyle(
+                    fontSize: 135.sp
+                  )),
+                  SizedBox(
+                    height: 150.h,
+                  ),
+                  Container(
+                    width: 600.w,
+                    child: TextField(
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                      ),
+                      onSubmitted: (_) {
+                        // String temp = _textEditingController.text.trim();
+                        // if (temp == _wordValue[index]) {
+                        //   print('O text: $temp, word: ${_wordValue[index]}');
+                        // } else {
+                        //   print('X text: $temp, word: ${_wordValue[index]}');
+                        // }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 20),
+                child: Text('${index + 1} / ${_wordKey.length}'),
+              )
+            )
+          ],
+        )
+      ),
+    );
+  }
+
   _stackBody() {
-    return Swiper(
-      layout: SwiperLayout.CUSTOM,
+    return Swiper.children(
+      // layout: SwiperLayout.CUSTOM,
       customLayoutOption: new CustomLayoutOption(
         startIndex: -1,
         stateCount: 3
@@ -80,57 +144,14 @@ class _EnglishMeaningState extends State<EnglishMeaning> with SingleTickerProvid
         new Offset(0.0, 0.0),
         new Offset(370.0, -40.0)
       ]),
-      itemWidth: _cardWidth.w,
-      itemHeight: _cardHeight.h,
       loop: false,
-      pagination: SwiperPagination(),
+      control: SwiperControl(
+        color: Colors.white
+      ),
+      // pagination: SwiperPagination(),
       controller: _swiperController,
-      itemBuilder: (context, index) {
-        return Card(
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              width: 20.w,
-              color: Theme.of(context).primaryColor
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('${_wordKey[index]}', style: TextStyle(
-                fontSize: 135.sp
-              )),
-              SizedBox(
-                height: 150.h,
-              ),
-              Container(
-                width: 600.h,
-                child: TextField(
-                  controller: _textEditingController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                  ),
-                  onSubmitted: (str) {        // keyboard enter
-                    _swiperController.next();
-                    setState(() {
-                      _textEditingController.text = '';
-                    });
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 150.h,
-              ),
-              Icon(Icons.add, size: 150.w)
-            ],
-          ),
-        );
-              },
-              itemCount: _word.length
-            );
+      children: _cardList,
+    );
   }
 
   @override
@@ -142,16 +163,4 @@ class _EnglishMeaningState extends State<EnglishMeaning> with SingleTickerProvid
       ) : _stackBody()
     );
   }
-
-  _popup() {
-    return Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text('지금 나간다면 점수가 없어집니다.'),
-      action: SnackBarAction(
-        label: '확인',
-        onPressed: () {
-          Navigator.pop(context);
-        }
-      ),
-    ));
-  } 
 }

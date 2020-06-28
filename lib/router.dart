@@ -1,5 +1,6 @@
 import 'package:english_word_memorize/wordpage/english_meaning.dart';
 import 'package:english_word_memorize/wordpage/english_word.dart';
+import 'package:english_word_memorize/wordpage/starttest/validator.dart';
 import 'package:english_word_memorize/wordpage/word_unit_choose.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,8 @@ import 'startPage.dart';
 
 final routes = {
   '/startPage' : (context) => StartPage(),                  // 시작 페이지 (initroute)
+
+  '/validator': (context, {arguments}) => ValidatorPage(check: arguments),
 
   '/wordUnitChoose': (context) => WordUnitChoose(),
   '/englishWord': (context, {arguments}) => EnglishWord(documents: arguments),
