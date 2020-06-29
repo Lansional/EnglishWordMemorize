@@ -11,35 +11,33 @@ class ValidatorPage extends StatefulWidget {
 }
 
 class _ValidatorPageState extends State<ValidatorPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.green : null,
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.green
+          : null,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text('준비되셨습니까?', style: TextStyle(
-              fontSize: 130.sp
-            )),
+            Text('준비되셨습니까?', style: TextStyle(fontSize: 130.sp)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 RaisedButton(
-                  child: Text('확인'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/englishMeaning');
-                  }
-                ),
+                    child: Text('확인'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/meaning',
+                          arguments: widget.check);
+                    }),
                 RaisedButton(
-                  color: Colors.red,
-                  child: Text('취소'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }
-                )
+                    color: Colors.red,
+                    child: Text('취소'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })
               ],
             )
           ],

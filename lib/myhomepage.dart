@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final _googleSignIn = new GoogleSignIn();
 
   GoogleSignInAccount _currentUser;
-  
+
   double _cardWidth = 850;
   double _cardHeight = 400;
   double _cardTextSize = 85;
@@ -26,15 +26,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   DateTime _backbuttonpressedTime;
 
-  var _cardSide = BorderSide(
-    color: Colors.white,
-    width: 4
-  );
+  var _cardSide = BorderSide(color: Colors.white, width: 4);
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    
+
     _accountLoginErrorClick();
   }
 
@@ -59,45 +56,41 @@ class _MyHomePageState extends State<MyHomePage> {
   // Write in English for Korean report.
   _cardToEngTap() {
     return Container(
-      width: _cardWidth.w,
-      height: _cardHeight.h,  
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(80.w)
-          ),
-          side: _cardSide
-        ),
-        onPressed: () {
-          print('한글보고 영어 쓰기');
-        },
-        elevation: 10,
-        child: Text('한글보고 영어 쓰기' , textAlign: TextAlign.center, style: TextStyle(fontSize: _cardTextSize.sp)),
-      )
-    );
+        width: _cardWidth.w,
+        height: _cardHeight.h,
+        child: RaisedButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
+              side: _cardSide),
+          onPressed: () {
+            // print('한글보고 영어 쓰기');
+            Navigator.pushNamed(context, '/validator',
+                arguments: {'what': 'korean'});
+          },
+          elevation: 10,
+          child: Text('한글보고 영어 쓰기',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: _cardTextSize.sp)),
+        ));
   }
 
   // Write in Korean for English report
   _cardToKorTap() {
     return Container(
-      width: _cardWidth.w,
-      height: _cardHeight.h,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(80.w)
-          ),
-          side: _cardSide
-        ),
-        onPressed: () {
-          Navigator.pushNamed(context, '/validator', arguments: {
-            'what': 'english'
-          });
-        },
-        elevation: 10,
-        child: Text('영어보고 뜻 쓰기' , style: TextStyle(fontSize: _cardTextSize.sp)),
-      )
-    );
+        width: _cardWidth.w,
+        height: _cardHeight.h,
+        child: RaisedButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
+              side: _cardSide),
+          onPressed: () {
+            Navigator.pushNamed(context, '/validator',
+                arguments: {'what': 'english'});
+          },
+          elevation: 10,
+          child:
+              Text('영어보고 뜻 쓰기', style: TextStyle(fontSize: _cardTextSize.sp)),
+        ));
   }
 
   _vocabularyNote() {
@@ -106,16 +99,13 @@ class _MyHomePageState extends State<MyHomePage> {
       height: _cardHeight.h,
       child: RaisedButton(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(80.w)
-          ),
-          side: _cardSide
-        ),
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
+            side: _cardSide),
         onPressed: () {
           Navigator.pushNamed(context, '/wordUnitChoose');
         },
         elevation: 10,
-        child: Text('단어장' , style: TextStyle(fontSize: _cardTextSize.sp)),
+        child: Text('단어장', style: TextStyle(fontSize: _cardTextSize.sp)),
       ),
     );
   }
@@ -123,60 +113,66 @@ class _MyHomePageState extends State<MyHomePage> {
   // PageDrawer
   _pageDrawer() {
     return Drawer(
-      child: Column(
-        children: <Widget>[
-          UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
+        child: Column(
+      children: <Widget>[
+        UserAccountsDrawerHeader(
+          decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage('https://i.pinimg.com/originals/2d/6b/9d/2d6b9d7145b42697d47c4fc11e7fa2ca.jpg'),
-                fit: BoxFit.cover
-              )
-            ),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: _currentUser == null ? NetworkImage('https://simpleicon.com/wp-content/uploads/account.png') : NetworkImage('${_currentUser.photoUrl}'),
-            ),
-            accountName: _currentUser == null ? Text('') : Text('${_currentUser.displayName}'),
-            accountEmail: _currentUser == null ? Text('로그인') : Text('${_currentUser.email}'),
-            onDetailsPressed: _currentUser == null ? () {
-              _accountLoginErrorClick();
-            } : null,
+                  image: NetworkImage(
+                      'https://i.pinimg.com/originals/2d/6b/9d/2d6b9d7145b42697d47c4fc11e7fa2ca.jpg'),
+                  fit: BoxFit.cover)),
+          currentAccountPicture: CircleAvatar(
+            backgroundImage: _currentUser == null
+                ? NetworkImage(
+                    'https://simpleicon.com/wp-content/uploads/account.png')
+                : NetworkImage('${_currentUser.photoUrl}'),
           ),
-          Expanded(
-            child: ListTile(
-              leading: Icon(Icons.calendar_today),
-              title: Text('캘린더'),
-              trailing: Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/calendarPage');
-              },
-            ),
+          accountName: _currentUser == null
+              ? Text('')
+              : Text('${_currentUser.displayName}'),
+          accountEmail: _currentUser == null
+              ? Text('로그인')
+              : Text('${_currentUser.email}'),
+          onDetailsPressed: _currentUser == null
+              ? () {
+                  _accountLoginErrorClick();
+                }
+              : null,
+        ),
+        Expanded(
+          child: ListTile(
+            leading: Icon(Icons.calendar_today),
+            title: Text('캘린더'),
+            trailing: Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/calendarPage');
+            },
           ),
-          Divider(),
-          ButtonBar(
-            buttonPadding: EdgeInsets.zero,
-            alignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              FlatButton.icon(
+        ),
+        Divider(),
+        ButtonBar(
+          buttonPadding: EdgeInsets.zero,
+          alignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            FlatButton.icon(
                 icon: Icon(Icons.settings),
                 label: Text('설정'),
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/settingPage');
-                }
-              ),
-              FlatButton(
-                onPressed: () {
-                  _googleSignIn.disconnect();
-                },
-                child: Text('로그아웃'),
-                textColor: Colors.red,
-              )
-            ],
-          )
-        ],
-      )
-    );
+                }),
+            FlatButton(
+              onPressed: () {
+                _googleSignIn.disconnect();
+              },
+              child: Text('로그아웃'),
+              textColor: Colors.red,
+            )
+          ],
+        )
+      ],
+    ));
   }
 
   _stackChild() {
@@ -185,14 +181,14 @@ class _MyHomePageState extends State<MyHomePage> {
         Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: EdgeInsets.only(top: ScreenUtil.screenHeightDp - 1850.h),        // any device height
+            padding: EdgeInsets.only(
+                top: ScreenUtil.screenHeightDp - 1850.h), // any device height
             child: IconButton(
-              icon: Icon(Icons.menu),
-              color: Colors.white,
-              onPressed: () {
-                _scaffoldKey.currentState.openDrawer();
-              }
-            ),
+                icon: Icon(Icons.menu),
+                color: Colors.white,
+                onPressed: () {
+                  _scaffoldKey.currentState.openDrawer();
+                }),
           ),
         ),
         Align(
@@ -205,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: _everyButtonHeight.h,
                 ),
-                _cardToKorTap(),  
+                _cardToKorTap(),
                 SizedBox(
                   height: _everyButtonHeight.h,
                 ),
@@ -223,19 +219,19 @@ class _MyHomePageState extends State<MyHomePage> {
     ScreenUtil.init(context);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.green : null,
-      key: _scaffoldKey,
-      drawer: _pageDrawer(),
-      body: WillPopScope(
-        child: _stackChild(), 
-        onWillPop: _onWillPop
-      )
-    );
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.green
+            : null,
+        key: _scaffoldKey,
+        drawer: _pageDrawer(),
+        body: WillPopScope(child: _stackChild(), onWillPop: _onWillPop));
   }
 
   // double back to close
   Future<bool> _onWillPop() async {
-    if (_backbuttonpressedTime == null || DateTime.now().difference(_backbuttonpressedTime) > Duration(seconds: 2)){
+    if (_backbuttonpressedTime == null ||
+        DateTime.now().difference(_backbuttonpressedTime) >
+            Duration(seconds: 2)) {
       _backbuttonpressedTime = DateTime.now();
       Toast.show('두번 눌러 앱 종료하기!', context);
     } else {

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,28 +8,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:toast/toast.dart';
 
-class EnglishMeaning extends StatefulWidget {
-  EnglishMeaning({Key key, this.unit}) : super(key: key);
+class Meaning extends StatefulWidget {
+  Meaning({Key key, this.lang}) : super(key: key);
 
-  final Map unit;
+  final Map lang;
 
   @override
-  _EnglishMeaningState createState() => _EnglishMeaningState();
+  _MeaningState createState() => _MeaningState();
 }
 
-class _EnglishMeaningState extends State<EnglishMeaning>
-    with SingleTickerProviderStateMixin {
+class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
   final databaseReference = Firestore.instance;
-
-  DateTime _backbuttonpressedTime;
 
   final SwiperController _swiperController = new SwiperController();
   final TextEditingController _textEditingController =
       new TextEditingController();
-
-  // Animation<double> _animation;
-  // AnimationController _animationController;
-  Map _word;
 
   List _wordKey;
   List _wordValue;
@@ -35,6 +30,7 @@ class _EnglishMeaningState extends State<EnglishMeaning>
   var _score = <bool>[];
   var _cardList = <Widget>[];
 
+  var _randomList = <int>[];
   var _valueIndex = 0;
 
   @override
@@ -42,27 +38,26 @@ class _EnglishMeaningState extends State<EnglishMeaning>
     // TODO: implement initState
     super.initState();
 
-    // _animationController = new AnimationController(
-    //   vsync: this,
-    //   duration: Duration(
-    //     seconds: 3
-    //   )
-    // );
-
     _getData();
   }
 
   void _getData() {
     databaseReference.collection('word').document('Unit 12').get().then((f) {
-      setState(() {
-        this._word = f.data;
+      var wordKey = f.data.keys.toList();
+      var wordValue = f.data.values.toList();
 
-        this._wordKey = _word.keys.toList();
-        this._wordValue = _word.values.toList();
-        for (int i = 0; i < _wordKey.length; i++) {
-          this._cardList.add(_swiperCardChildren(i));
-        }
+      setState(() {
+        this._wordKey = wordKey.getRange(0, 20).toList();
+        this._wordValue = wordValue.getRange(0, 20).toList();
       });
+
+      for (int i = 0; i < _wordKey.length; i++) {
+        setState(() {
+          this._randomList.add(Random().nextInt(_wordKey.length));
+          this._cardList.add(_swiperCardChildren(i));
+        });
+      }
+      // print('$_randomList');
     });
   }
 
@@ -85,8 +80,11 @@ class _EnglishMeaningState extends State<EnglishMeaning>
                     SizedBox(
                       height: 200.h,
                     ),
-                    Text('${_wordKey[index]}',
-                        style: TextStyle(fontSize: 135.sp)),
+                    Text(
+                        widget.lang['what'] == 'english'
+                            ? '${_wordKey[_randomList[index]]}'
+                            : '${_wordValue[_randomList[index]]}',
+                        style: TextStyle(fontSize: 120.sp)),
                     // SizedBox(
                     //   height: 150.h,
                     // ),
@@ -140,29 +138,36 @@ class _EnglishMeaningState extends State<EnglishMeaning>
                 onSubmitted: (_) {
                   String temp = _textEditingController.text.trim();
                   bool hadCheck = false;
-                  if (_wordValue[_valueIndex] is String) {
-                    if (temp == _wordValue[_valueIndex]) {
-                      hadCheck = true;
-                      // print('O text: $temp, word: ${_wordValue[_valueIndex]}');
-                    }
-                  } else if (_wordValue[_valueIndex] is List) {
-                    List valueList = _wordValue[_valueIndex];
-                    for (int i = 0; i < valueList.length; i++) {
-                      if (temp == _wordValue[_valueIndex][i]) {
+                  if (widget.lang['what'] == 'english') {
+                    // check the arguments
+                    if (_wordValue[_valueIndex] is String) {
+                      // check the type
+                      if (temp == _wordValue[_valueIndex]) {
                         hadCheck = true;
-                        break;
+                        // print('O text: $temp, word: ${_wordValue[_valueIndex]}');
+                      }
+                    } else if (_wordValue[_valueIndex] is List) {
+                      List valueList = _wordValue[_valueIndex];
+                      for (int i = 0; i < valueList.length; i++) {
+                        if (temp == _wordValue[_valueIndex][i]) {
+                          hadCheck = true;
+                          break;
+                        }
                       }
                     }
-                  }
-                  if (hadCheck) {
-                    print('O text: $temp, word: ${_wordValue[_valueIndex]}');
-                    Toast.show('맞았습니다.', context, duration: 2);
-                    _score.add(true);
-                  } else {
-                    print('X text: $temp, word: ${_wordValue[_valueIndex]}');
-                    Toast.show('틀렸습니다.', context, duration: 2);
-                    _score.add(false);
-                  }
+
+                    if (hadCheck) {
+                      print(
+                          'O text: $temp, word: ${_wordValue[_randomList[_valueIndex]]}');
+                      Toast.show('맞았습니다.', context, duration: 2);
+                      _score.add(true);
+                    } else {
+                      print(
+                          'X text: $temp, word: ${_wordValue[_randomList[_valueIndex]]}');
+                      Toast.show('틀렸습니다.', context, duration: 2);
+                      _score.add(false);
+                    }
+                  } else {}
 
                   _swiperController.next();
 

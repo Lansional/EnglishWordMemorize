@@ -1,4 +1,4 @@
-import 'package:english_word_memorize/wordpage/english_meaning.dart';
+import 'package:english_word_memorize/wordpage/meaning.dart';
 import 'package:english_word_memorize/wordpage/english_word.dart';
 import 'package:english_word_memorize/wordpage/starttest/validator.dart';
 import 'package:english_word_memorize/wordpage/word_unit_choose.dart';
@@ -9,17 +9,17 @@ import 'homepage/settingpage.dart';
 import 'startPage.dart';
 
 final routes = {
-  '/startPage' : (context) => StartPage(),                  // 시작 페이지 (initroute)
+  '/startPage': (context) => StartPage(), // 시작 페이지 (initroute)
 
   '/validator': (context, {arguments}) => ValidatorPage(check: arguments),
 
   '/wordUnitChoose': (context) => WordUnitChoose(),
   '/englishWord': (context, {arguments}) => EnglishWord(documents: arguments),
 
-  '/englishMeaning': (context) => EnglishMeaning(),
+  '/meaning': (context, {arguments}) => Meaning(lang: arguments),
 
-  '/calendarPage': (context) => CalendarPage(),    // 캘린더 페이지
-  '/settingPage': (context) => SettingPage(),      // 설정 페이지
+  '/calendarPage': (context) => CalendarPage(), // 캘린더 페이지
+  '/settingPage': (context) => SettingPage(), // 설정 페이지
 };
 
 // MaterialApp
@@ -29,11 +29,12 @@ final onGenerateRoute = (RouteSettings settings) {
   if (pageContentBuilder != null) {
     if (settings.arguments != null) {
       final Route route = MaterialPageRoute(
-        builder: (context) => pageContentBuilder(context, arguments: settings.arguments));
-        return route;
+          builder: (context) =>
+              pageContentBuilder(context, arguments: settings.arguments));
+      return route;
     } else {
-      final Route route = MaterialPageRoute(
-        builder: (context) => pageContentBuilder(context));
+      final Route route =
+          MaterialPageRoute(builder: (context) => pageContentBuilder(context));
       return route;
     }
   }
