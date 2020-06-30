@@ -47,8 +47,8 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
       var wordValue = f.data.values.toList();
 
       setState(() {
-        this._wordKey = wordKey.getRange(0, 20).toList();
-        this._wordValue = wordValue.getRange(0, 20).toList();
+        this._wordKey = wordKey.getRange(0, 5).toList();
+        this._wordValue = wordValue.getRange(0, 5).toList();
       });
 
       for (int i = 0; i < _wordKey.length; i++) {
@@ -175,6 +175,16 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
                   setState(() {
                     this._valueIndex++;
                   });
+                  if (_valueIndex >= _wordKey.length) {
+                    // bugPoint
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/score', arguments: {
+                      'key': _wordKey,
+                      'value': _wordValue,
+                      'score': _score,
+                      'index': _randomList
+                    });
+                  }
                 },
               )),
         )

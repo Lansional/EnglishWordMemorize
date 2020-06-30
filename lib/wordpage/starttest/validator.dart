@@ -21,7 +21,8 @@ class _ValidatorPageState extends State<ValidatorPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text('준비되셨습니까?', style: TextStyle(fontSize: 130.sp)),
+            Text('준비되셨습니까?',
+                style: TextStyle(fontSize: 130.sp, color: Colors.white)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
