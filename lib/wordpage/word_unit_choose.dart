@@ -81,7 +81,7 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
               child: Padding(
                   padding: EdgeInsets.only(
                       top: ScreenUtil.screenHeightDp -
-                          1850.h), // any device height
+                          1800.h), // any device height
                   child: BackButton(color: Colors.white)),
             ),
             Align(

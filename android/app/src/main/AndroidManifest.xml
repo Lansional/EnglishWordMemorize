@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="english_word_memorize"
+        android:label="단어공부장"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

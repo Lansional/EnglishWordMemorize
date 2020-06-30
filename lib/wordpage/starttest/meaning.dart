@@ -47,8 +47,8 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
       var wordValue = f.data.values.toList();
 
       setState(() {
-        this._wordKey = wordKey.getRange(0, 5).toList();
-        this._wordValue = wordValue.getRange(0, 5).toList();
+        this._wordKey = wordKey.getRange(0, 20).toList();
+        this._wordValue = wordValue.getRange(0, 20).toList();
       });
 
       for (int i = 0; i < _wordKey.length; i++) {
@@ -118,7 +118,7 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
                   new Offset(370.0, -40.0)
                 ]),
                 loop: false,
-                control: SwiperControl(color: Colors.white),
+                // control: SwiperControl(color: Colors.white),
                 // pagination: SwiperPagination(),
                 controller: _swiperController,
                 children: _cardList,
@@ -155,19 +155,23 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
                         }
                       }
                     }
-
-                    if (hadCheck) {
-                      print(
-                          'O text: $temp, word: ${_wordValue[_randomList[_valueIndex]]}');
-                      Toast.show('맞았습니다.', context, duration: 2);
-                      _score.add(true);
-                    } else {
-                      print(
-                          'X text: $temp, word: ${_wordValue[_randomList[_valueIndex]]}');
-                      Toast.show('틀렸습니다.', context, duration: 2);
-                      _score.add(false);
+                  } else if (widget.lang['what'] == 'korean') {
+                    if (temp == _wordValue[_valueIndex]) {
+                      hadCheck = true;
                     }
-                  } else {}
+                  }
+
+                  if (hadCheck) {
+                    print(
+                        'O text: $temp, word: ${_wordValue[_randomList[_valueIndex]]}');
+                    Toast.show('맞았습니다.', context, duration: 2);
+                    _score.add(true);
+                  } else {
+                    print(
+                        'X text: $temp, word: ${_wordValue[_randomList[_valueIndex]]}');
+                    Toast.show('틀렸습니다.', context, duration: 2);
+                    _score.add(false);
+                  }
 
                   _swiperController.next();
 
