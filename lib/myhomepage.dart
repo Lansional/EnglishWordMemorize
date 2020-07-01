@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -16,6 +20,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _googleSignIn = new GoogleSignIn();
 
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   GoogleSignInAccount _currentUser;
 
   double _cardWidth = 850;
@@ -32,7 +38,19 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    _accountLoginErrorClick();
+    // check internet connective
+    _connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        Toast.show('인터넷 연결이 되어 있지 않습니다.', context);
+        Future.delayed(Duration(seconds: 1), () {
+          exit(0);
+        });
+      } else {
+        _accountLoginErrorClick();
+      }
+    });
   }
 
   // google account login
@@ -239,5 +257,12 @@ class _MyHomePageState extends State<MyHomePage> {
       // exit
       await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
     }
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+
+    super.dispose();
   }
 }
