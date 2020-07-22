@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// 준비되었는지 확인 페이지
 class ValidatorPage extends StatefulWidget {
   ValidatorPage({Key key, this.check}) : super(key: key);
 

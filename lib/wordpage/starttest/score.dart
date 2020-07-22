@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// 테스트 결과 페이지
 class ScorePage extends StatefulWidget {
   ScorePage({Key key, this.score}) : super(key: key);
 
