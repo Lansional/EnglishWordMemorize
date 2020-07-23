@@ -34,6 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var _cardSide = BorderSide(color: Colors.white, width: 4);
 
+  FloatingActionButton _faButton = new FloatingActionButton(
+      child: Icon(Icons.add, color: Colors.white), onPressed: () {});
+
   @override
   void initState() {
     super.initState();
@@ -47,9 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
         Future.delayed(Duration(seconds: 1), () {
           exit(0);
         });
-      } else {
-        _accountLoginErrorClick();
       }
+      // } else {
+      //   _accountLoginErrorClick();
+      // }
     });
   }
 
@@ -113,8 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _vocabularyNote() {
     return Container(
-      width: _cardWidth.w,
-      height: _cardHeight.h,
+      width: (_cardWidth / 2 - 12).w,
+      height: (_cardHeight - 12).h,
       child: RaisedButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
@@ -124,6 +128,23 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         elevation: 10,
         child: Text('단어장', style: TextStyle(fontSize: _cardTextSize.sp)),
+      ),
+    );
+  }
+
+  _wrongWordNote() {
+    return Container(
+      width: (_cardWidth / 2 - 12).w,
+      height: (_cardHeight - 12).h,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
+            side: _cardSide),
+        onPressed: () {},
+        elevation: 10,
+        child: Text('오답   단어장',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: _cardTextSize.sp)),
       ),
     );
   }
@@ -193,43 +214,53 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 
-  _stackChild() {
-    return Stack(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: ScreenUtil.screenHeightDp - 1800.h), // any device height
-            child: IconButton(
-                icon: Icon(Icons.menu),
-                color: Colors.white,
-                onPressed: () {
-                  _scaffoldKey.currentState.openDrawer();
-                }),
+  _child() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _cardToEngTap(),
+          SizedBox(
+            height: _everyButtonHeight.h,
           ),
-        ),
-        Align(
-          alignment: Alignment.center,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _vocabularyNote(),
-                SizedBox(
-                  height: _everyButtonHeight.h,
-                ),
-                _cardToKorTap(),
-                SizedBox(
-                  height: _everyButtonHeight.h,
-                ),
-                _cardToEngTap(),
-              ],
-            ),
+          _cardToKorTap(),
+          SizedBox(
+            height: _everyButtonHeight.h,
           ),
-        )
-      ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _vocabularyNote(),
+              SizedBox(
+                width: 30.w,
+              ),
+              _wrongWordNote()
+            ],
+          )
+        ],
+      ),
     );
+    // return Stack(
+    //   children: <Widget>[
+    //     // Align(
+    //     //   alignment: Alignment.topLeft,
+    //     //   child: Padding(
+    //     //     padding: EdgeInsets.only(
+    //     //         top: ScreenUtil.screenHeightDp - 1800.h), // any device height
+    //     //     child: IconButton(
+    //     //         icon: Icon(Icons.menu),
+    //     //         color: Colors.white,
+    //     //         onPressed: () {
+    //     //           _scaffoldKey.currentState.openDrawer();
+    //     //         }),
+    //     //   ),
+    //     // ),
+    //     Align(
+    //       alignment: Alignment.center,
+    //       child:
+    //     )
+    //   ],
+    // );
   }
 
   @override
@@ -240,9 +271,10 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).brightness == Brightness.light
             ? Colors.green
             : null,
+        floatingActionButton: _faButton,
         key: _scaffoldKey,
-        drawer: _pageDrawer(),
-        body: WillPopScope(child: _stackChild(), onWillPop: _onWillPop));
+        // drawer: _pageDrawer(),
+        body: WillPopScope(child: _child(), onWillPop: _onWillPop));
   }
 
   // double back to close

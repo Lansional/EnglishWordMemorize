@@ -15,6 +15,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           brightness: brightness,
           primaryColorDark: Colors.black,
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Colors.blue,
+          ),
           buttonTheme: ButtonThemeData(
             buttonColor: Colors.blue,
             textTheme: ButtonTextTheme.primary,
