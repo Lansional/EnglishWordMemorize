@@ -1,3 +1,4 @@
+import 'package:english_word_memorize/wordpage/add_word.dart';
 import 'package:flutter/material.dart';
 
 import 'wordpage/starttest/meaning.dart';
@@ -19,6 +20,8 @@ final routes = {
 
   '/meaning': (context, {arguments}) => Meaning(lang: arguments),
   '/score': (context, {arguments}) => ScorePage(score: arguments),
+
+  '/addWord': (context) => AddWord(),
 
   '/calendarPage': (context) => CalendarPage(), // 캘린더 페이지
   '/settingPage': (context) => SettingPage(), // 설정 페이지

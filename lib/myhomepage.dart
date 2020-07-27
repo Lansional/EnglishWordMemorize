@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -31,11 +32,15 @@ class _MyHomePageState extends State<MyHomePage> {
   double _everyButtonHeight = 45;
 
   DateTime _backbuttonpressedTime;
+  bool _bottomClick = false;
 
   var _cardSide = BorderSide(color: Colors.white, width: 4);
 
-  FloatingActionButton _faButton = new FloatingActionButton(
-      child: Icon(Icons.add, color: Colors.white), onPressed: () {});
+  List _documentsName = [
+    '수능',
+    'Unit 12',
+    'Unit 13',
+  ];
 
   @override
   void initState() {
@@ -271,10 +276,108 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).brightness == Brightness.light
             ? Colors.green
             : null,
-        floatingActionButton: _faButton,
+        floatingActionButton: Container(
+          child: FloatingActionButton(
+              child: Icon(Icons.add, color: Colors.white),
+              onPressed: () {
+                _showModalBottomSheet();
+                // _scaffoldKey.currentState
+                //     .showBottomSheet((context) => BottomSheet(
+                //         onClosing: () {
+                //           _bottomClick ? _bottomClick
+                //         },
+                //         builder: (context) {
+                //           return Container(
+                //             height: 350.h,
+                //             color: Colors.red,
+                //           );
+                //         }));
+                // Navigator.pushNamed(context, '/addWord');
+              }),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: Colors.white, width: 4)),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            notchMargin: 10,
+            color: Theme.of(context).primaryColor,
+            child: Container(
+              height: 150.h,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                      icon: Icon(Icons.lightbulb_outline, color: Colors.white),
+                      onPressed: () => _changeBrightness())
+                ],
+              ),
+            )),
         key: _scaffoldKey,
         // drawer: _pageDrawer(),
         body: WillPopScope(child: _child(), onWillPop: _onWillPop));
+  }
+
+  void _showModalBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return SizedBox(
+            height: 830.h,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 150.h,
+                  width: ScreenUtil.screenWidth,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.black
+                        : Colors.white,
+                    border: Theme.of(context).brightness == Brightness.dark
+                        ? Border.all(color: Colors.white, width: 3)
+                        : null,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                  // padding: EdgeInsets.fromLTRB(15, 5, 0, 0),
+                  child: Center(
+                      child: Text('추가할 단어의 단원을 선택하세요',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 25))),
+                ),
+                Container(
+                  height: 550.h,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.black
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                    border: Theme.of(context).brightness == Brightness.dark
+                        ? Border.all(color: Colors.white, width: 3)
+                        : null,
+                  ),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                  child: ListView.builder(
+                      itemCount: _documentsName.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text('${_documentsName[index]}'),
+                        );
+                      }),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  void _changeBrightness() {
+    DynamicTheme.of(context).setBrightness(
+        Theme.of(context).brightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark);
   }
 
   // double back to close
