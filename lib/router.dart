@@ -21,7 +21,7 @@ final routes = {
   '/meaning': (context, {arguments}) => Meaning(lang: arguments),
   '/score': (context, {arguments}) => ScorePage(score: arguments),
 
-  '/addWord': (context) => AddWord(),
+  '/addWord': (context, {arguments}) => AddWord(arguments: arguments),
 
   '/calendarPage': (context) => CalendarPage(), // 캘린더 페이지
   '/settingPage': (context) => SettingPage(), // 설정 페이지

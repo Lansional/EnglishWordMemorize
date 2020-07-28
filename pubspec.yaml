@@ -33,7 +33,6 @@ dependencies:
   toast: ^0.1.5
 
   # firebase
-  google_sign_in: ^4.5.1
   cloud_firestore: ^0.13.6
 
 dev_dependencies:

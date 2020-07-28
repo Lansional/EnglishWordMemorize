@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:toast/toast.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -19,11 +18,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final _googleSignIn = new GoogleSignIn();
 
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
-  GoogleSignInAccount _currentUser;
 
   double _cardWidth = 850;
   double _cardHeight = 400;
@@ -60,24 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //   _accountLoginErrorClick();
       // }
     });
-  }
-
-  // google account login
-  _accountLoginErrorClick() {
-    _handleSignIn();
-    _googleSignIn.onCurrentUserChanged.listen((event) {
-      setState(() {
-        _currentUser = event;
-      });
-    });
-  }
-
-  Future<void> _handleSignIn() async {
-    try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
-    }
   }
 
   // Write in English for Korean report.
@@ -152,71 +130,6 @@ class _MyHomePageState extends State<MyHomePage> {
             style: TextStyle(fontSize: _cardTextSize.sp)),
       ),
     );
-  }
-
-  // PageDrawer
-  _pageDrawer() {
-    return Drawer(
-        child: Column(
-      children: <Widget>[
-        UserAccountsDrawerHeader(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(
-                      'https://i.pinimg.com/originals/2d/6b/9d/2d6b9d7145b42697d47c4fc11e7fa2ca.jpg'),
-                  fit: BoxFit.cover)),
-          currentAccountPicture: CircleAvatar(
-            backgroundImage: _currentUser == null
-                ? NetworkImage(
-                    'https://simpleicon.com/wp-content/uploads/account.png')
-                : NetworkImage('${_currentUser.photoUrl}'),
-          ),
-          accountName: _currentUser == null
-              ? Text('')
-              : Text('${_currentUser.displayName}'),
-          accountEmail: _currentUser == null
-              ? Text('로그인')
-              : Text('${_currentUser.email}'),
-          onDetailsPressed: _currentUser == null
-              ? () {
-                  _accountLoginErrorClick();
-                }
-              : null,
-        ),
-        Expanded(
-          child: ListTile(
-            leading: Icon(Icons.calendar_today),
-            title: Text('캘린더'),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/calendarPage');
-            },
-          ),
-        ),
-        Divider(),
-        ButtonBar(
-          buttonPadding: EdgeInsets.zero,
-          alignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            FlatButton.icon(
-                icon: Icon(Icons.settings),
-                label: Text('설정'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/settingPage');
-                }),
-            FlatButton(
-              onPressed: () {
-                _googleSignIn.disconnect();
-              },
-              child: Text('로그아웃'),
-              textColor: Colors.red,
-            )
-          ],
-        )
-      ],
-    ));
   }
 
   _child() {
@@ -364,6 +277,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text('${_documentsName[index]}'),
+                          trailing: Icon(Icons.keyboard_arrow_right),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/addWord',
+                                arguments: '${_documentsName[index]}');
+                          },
                         );
                       }),
                 )
