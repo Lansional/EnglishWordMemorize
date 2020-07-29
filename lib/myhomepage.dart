@@ -28,7 +28,6 @@ class _MyHomePageState extends State<MyHomePage> {
   double _everyButtonHeight = 45;
 
   DateTime _backbuttonpressedTime;
-  bool _bottomClick = false;
 
   var _cardSide = BorderSide(color: Colors.white, width: 4);
 
@@ -41,6 +40,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     // check internet connective
     _connectivitySubscription = Connectivity()
@@ -158,27 +160,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
-    // return Stack(
-    //   children: <Widget>[
-    //     // Align(
-    //     //   alignment: Alignment.topLeft,
-    //     //   child: Padding(
-    //     //     padding: EdgeInsets.only(
-    //     //         top: ScreenUtil.screenHeightDp - 1800.h), // any device height
-    //     //     child: IconButton(
-    //     //         icon: Icon(Icons.menu),
-    //     //         color: Colors.white,
-    //     //         onPressed: () {
-    //     //           _scaffoldKey.currentState.openDrawer();
-    //     //         }),
-    //     //   ),
-    //     // ),
-    //     Align(
-    //       alignment: Alignment.center,
-    //       child:
-    //     )
-    //   ],
-    // );
   }
 
   @override
@@ -192,21 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: Container(
           child: FloatingActionButton(
               child: Icon(Icons.add, color: Colors.white),
-              onPressed: () {
-                _showModalBottomSheet();
-                // _scaffoldKey.currentState
-                //     .showBottomSheet((context) => BottomSheet(
-                //         onClosing: () {
-                //           _bottomClick ? _bottomClick
-                //         },
-                //         builder: (context) {
-                //           return Container(
-                //             height: 350.h,
-                //             color: Colors.red,
-                //           );
-                //         }));
-                // Navigator.pushNamed(context, '/addWord');
-              }),
+              onPressed: () => _showModalBottomSheet()),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               border: Border.all(color: Colors.white, width: 4)),
