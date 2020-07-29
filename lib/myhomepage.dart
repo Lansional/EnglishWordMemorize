@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .listen((ConnectivityResult result) {
       if (result == ConnectivityResult.none) {
         Toast.show('인터넷 연결이 되어 있지 않습니다.', context);
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 2), () {
           exit(0);
         });
       }

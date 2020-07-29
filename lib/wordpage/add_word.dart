@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toast/toast.dart';
 
 class AddWord extends StatefulWidget {
   AddWord({Key key, this.arguments}) : super(key: key);
@@ -16,8 +18,10 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
   final _engWordMean = new TextEditingController();
   final _formkey = new GlobalKey<FormState>();
 
+  final databaseReference = Firestore.instance;
+
   var _newWordKey = <String>[];
-  var _newWordValue = <String>[];
+  var _newWordValue = [];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => _updateData(),
           child: Icon(Icons.done, color: Colors.white),
         ),
         body: _newWordKey.isEmpty
@@ -75,9 +79,24 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                     )));
   }
 
+  void _updateData() {
+    for (int i = 0; i < _newWordKey.length; i++) {
+      try {
+        databaseReference
+            .collection('word')
+            .document(widget.arguments == '수능' ? 'CSAT' : '${widget.arguments}')
+            .updateData({'${_newWordKey[i]}': _newWordValue[i]});
+      } catch (e) {
+        print(e);
+      }
+    }
+    Toast.show('업로드 되었습니다.', context);
+    Navigator.pop(context);
+  }
+
   void _addChildren() {
-    final double width = 750;
-    final double height = 673;
+    final double width = 1050;
+    final double height = 773;
 
     showDialog(
         context: context,
@@ -98,7 +117,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                                 child: SizedBox(
-                                  width: (width - 215).w,
+                                  width: (width - 515).w,
                                   child: TextFormField(
                                     controller: _engWord,
                                     validator: (value) {
@@ -125,7 +144,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                               Padding(
                                 padding: EdgeInsets.fromLTRB(53, 0, 0, 0),
                                 child: SizedBox(
-                                  width: (width - 210).w,
+                                  width: (width - 510).w,
                                   child: TextFormField(
                                     controller: _engWordMean,
                                     validator: (value) {
@@ -143,52 +162,60 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                               )
                             ],
                           ),
-                          SizedBox(
-                            height: 30.h,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              SizedBox(
-                                width: (width - 500).w,
-                              ),
-                              OutlineButton(
-                                  child: Text('확인'),
-                                  onPressed: () {
-                                    String word = _engWord.text.trim();
-                                    String mean = _engWordMean.text.trim();
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(260.h, 30.h, 0, 10.h),
+                            child: Row(
+                              children: <Widget>[
+                                OutlineButton(
+                                    child: Text('확인'),
+                                    onPressed: () {
+                                      String word = _engWord.text.trim();
+                                      String mean = _engWordMean.text.trim();
 
-                                    if (_formkey.currentState.validate()) {
-                                      _newWordKey.add(word);
-                                      _newWordValue.add(mean);
+                                      List upload = mean.split(', ');
 
-                                      if (_newWordKey.length > 1) {
-                                        int index = _newWordKey.length - 1;
-                                        _listKey.currentState.insertItem(index);
+                                      if (_formkey.currentState.validate()) {
+                                        _newWordKey.add(word);
+                                        if (upload.length <= 1) {
+                                          print('mean: $mean');
+                                          _newWordValue.add(mean);
+                                        } else {
+                                          _newWordValue.add(upload);
+                                        }
+
+                                        if (_newWordKey.length > 1) {
+                                          int index = _newWordKey.length - 1;
+                                          _listKey.currentState
+                                              .insertItem(index);
+                                        }
+
+                                        setState(() {
+                                          _engWord.text = '';
+                                          _engWordMean.text = '';
+                                        });
+
+                                        Navigator.pop(context);
                                       }
-
+                                    }),
+                                SizedBox(
+                                  width: 30.w,
+                                ),
+                                OutlineButton(
+                                    child: Text('취소',
+                                        style: TextStyle(color: Colors.red)),
+                                    onPressed: () {
                                       setState(() {
                                         _engWord.text = '';
                                         _engWordMean.text = '';
                                       });
-
                                       Navigator.pop(context);
-                                    }
-                                  }),
-                              SizedBox(
-                                width: 30.w,
-                              ),
-                              OutlineButton(
-                                  child: Text('취소',
-                                      style: TextStyle(color: Colors.red)),
-                                  onPressed: () {
-                                    setState(() {
-                                      _engWord.text = '';
-                                      _engWordMean.text = '';
-                                    });
-                                    Navigator.pop(context);
-                                  }),
-                            ],
-                          )
+                                    }),
+                              ],
+                            ),
+                          ),
+                          Text('여러가지 뜻이 가지고 있는 단어는 \', \'로 추가해주세요.',
+                              style: TextStyle(
+                                  fontSize: 30.sp, fontWeight: FontWeight.bold))
                         ],
                       ))),
             ));
