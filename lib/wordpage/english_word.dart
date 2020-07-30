@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:slimy_card/slimy_card.dart';
 
-// 영어보고 한글 뜻 쓰는 테스트 페이지 (바꿀꺼임)
 class EnglishWord extends StatefulWidget {
   EnglishWord({Key key, this.documents}) : super(key: key);
 
@@ -17,6 +17,8 @@ class EnglishWord extends StatefulWidget {
 
 class _EnglishWordState extends State<EnglishWord> {
   final databaseReference = Firestore.instance;
+
+  final double _radius = 20;
 
   Map _word;
 
@@ -52,13 +54,30 @@ class _EnglishWordState extends State<EnglishWord> {
     List<String> key = prefs.getStringList('score_key');
     List<String> value = prefs.getStringList('score_value');
 
-    print('key: $key, value: $value');
-
     setState(() {
       this._wordKey = key.map((e) => e).toList();
       this._wordValue = value.map((e) => e).toList();
     });
   }
+
+  _topCardWidget(int index) => Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(_radius)),
+          border: Border.all(width: 5, color: Colors.white)),
+      child: Center(
+        child: Text('${_wordKey[index]}',
+            style: TextStyle(fontSize: 120.sp, color: Colors.white)),
+      ));
+
+  _bottomCardWidget(int index) => Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(_radius)),
+            border: Border.all(width: 5, color: Colors.white)),
+        child: Center(
+          child: Text('${_wordValue[index]}',
+              style: TextStyle(fontSize: 50.sp, color: Colors.white)),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -74,45 +93,22 @@ class _EnglishWordState extends State<EnglishWord> {
                       alignment: Alignment.center,
                       child: Swiper(
                         itemBuilder: (context, index) {
-                          return
-                              // FlipCard(
-                              //   key: cardKey,
-                              //   flipOnTouch: false,
-                              //   front: Container(
-                              //     child: RaisedButton(
-                              //       onPressed: () => cardKey.currentState.toggleCard(),
-                              //       child: Text('Toggle'),
-                              //     ),
-                              //   ),
-                              //   back: Container(
-                              //     child: Text('Back'),
-                              //   ),
-                              // );
-                              Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: BorderSide(
-                                  width: 10.w,
-                                  color: Theme.of(context).primaryColor),
+                          return Padding(
+                            padding: EdgeInsets.only(top: 30),
+                            child: SlimyCard(
+                              color: Theme.of(context).primaryColor,
+                              width: 380,
+                              topCardHeight: 400,
+                              bottomCardHeight: 120,
+                              borderRadius: _radius,
+                              topCardWidget: _topCardWidget(index),
+                              bottomCardWidget: _bottomCardWidget(index),
+                              slimeEnabled: true,
                             ),
-                            elevation: 4,
-                            child: Container(
-                                child: Center(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Text('${_wordKey[index]}',
-                                      style: TextStyle(fontSize: 120.sp)),
-                                  Text('${_wordValue[index]}',
-                                      style: TextStyle(fontSize: 50.sp))
-                                ],
-                              ),
-                            )),
                           );
                         },
-                        itemWidth: 1000.w,
-                        itemHeight: 1500.h,
+                        itemWidth: ScreenUtil.screenWidth,
+                        itemHeight: ScreenUtil.screenHeight,
                         layout: SwiperLayout.TINDER,
                         itemCount: _wordKey.length,
                       )),
