@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // 테스트 결과 페이지
 class ScorePage extends StatefulWidget {
@@ -26,6 +27,9 @@ class _ScorePageState extends State<ScorePage> {
       _index = widget.score['index'];
     });
 
+    print('$_key');
+    print('$_value');
+
     for (int i = 0; i < _score.length; i++) {
       if (_score[i]) {
         setState(() {
@@ -49,9 +53,9 @@ class _ScorePageState extends State<ScorePage> {
           )
         ],
       ),
-      backgroundColor: Theme.of(context).brightness == Brightness.light
-          ? Colors.green
-          : null,
+      // backgroundColor: Theme.of(context).brightness == Brightness.light
+      //     ? Colors.green
+      //     : null,
       body: _score == null && _value == null && _key == null
           ? Center(
               child: CircularProgressIndicator(),
@@ -60,18 +64,36 @@ class _ScorePageState extends State<ScorePage> {
               itemCount: _score.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: Text('${index + 1}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white)),
-                  title: Text('${_key[_index[index]]}',
-                      style: TextStyle(color: Colors.white)),
-                  subtitle: Text('${_value[_index[index]]}',
-                      style: TextStyle(color: Colors.white)),
-                  trailing: _score[index]
-                      ? Icon(Icons.done, color: Colors.white)
-                      : Icon(Icons.clear, color: Colors.white),
+                  leading: Text('${index + 1}', textAlign: TextAlign.center),
+                  title: Text(
+                    '${_key[_index[index]]}',
+                  ),
+                  subtitle: Text('${_value[_index[index]]}'),
+                  trailing:
+                      _score[index] ? Icon(Icons.done) : Icon(Icons.clear),
                 );
               }),
     );
+  }
+
+  _increment() async {
+    var list = <String>[];
+
+    for (int i = 0; i < _value.length; i++) {
+      list.add('${_value[i]}');
+    }
+
+    print(list);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('score_key', _key);
+    await prefs.setStringList('score_value', list);
+  }
+
+  @override
+  void dispose() {
+    _increment();
+
+    super.dispose();
   }
 }

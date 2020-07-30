@@ -84,8 +84,8 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
       try {
         databaseReference
             .collection('word')
-            .document(widget.arguments == '수능' ? 'CSAT' : '${widget.arguments}')
-            .updateData({'${_newWordKey[i]}': _newWordValue[i]});
+            .document(widget.arguments == '수능' ? 'CSAT' : widget.arguments)
+            .updateData({_newWordKey[i]: _newWordValue[i]});
       } catch (e) {
         print(e);
       }

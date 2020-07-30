@@ -54,9 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
           exit(0);
         });
       }
-      // } else {
-      //   _accountLoginErrorClick();
-      // }
     });
   }
 
@@ -109,7 +106,10 @@ class _MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
             side: _cardSide),
         onPressed: () {
-          Navigator.pushNamed(context, '/wordUnitChoose');
+          Navigator.pushNamed(
+            context,
+            '/wordUnitChoose',
+          );
         },
         elevation: 10,
         child: Text('단어장', style: TextStyle(fontSize: _cardTextSize.sp)),
@@ -125,7 +125,8 @@ class _MyHomePageState extends State<MyHomePage> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
             side: _cardSide),
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, '/englishWord',
+            arguments: 'wrongWord'),
         elevation: 10,
         child: Text('오답   단어장',
             textAlign: TextAlign.center,
