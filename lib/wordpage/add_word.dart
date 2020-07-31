@@ -80,18 +80,19 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
   }
 
   void _updateData() {
-    for (int i = 0; i < _newWordKey.length; i++) {
-      try {
+    try {
+      //???
+      for (int i = 0; i < _newWordKey.length; i++) {
         databaseReference
             .collection('word')
             .document(widget.arguments == '수능' ? 'CSAT' : widget.arguments)
             .updateData({_newWordKey[i]: _newWordValue[i]});
-      } catch (e) {
-        print(e);
       }
+    } catch (e) {
+      print(e);
     }
     Toast.show('업로드 되었습니다.', context);
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   void _addChildren() {

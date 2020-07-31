@@ -20,8 +20,6 @@ class _EnglishWordState extends State<EnglishWord> {
 
   final double _radius = 20;
 
-  Map _word;
-
   List _wordKey;
   List _wordValue;
 
@@ -36,14 +34,13 @@ class _EnglishWordState extends State<EnglishWord> {
   void _getData() {
     databaseReference
         .collection('word')
-        .document('${widget.documents}')
+        .document(widget.documents)
         .get()
         .then((f) {
+      var word = f.data;
       setState(() {
-        this._word = f.data;
-
-        this._wordKey = _word.keys.toList();
-        this._wordValue = _word.values.toList();
+        this._wordKey = word.keys.toList();
+        this._wordValue = word.values.toList();
       });
     });
   }
@@ -93,13 +90,21 @@ class _EnglishWordState extends State<EnglishWord> {
                       alignment: Alignment.center,
                       child: Swiper(
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.only(top: 30),
+                          return Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(_radius),
+                                border: Border.all(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 5,
+                                )),
+                            padding: EdgeInsets.only(top: 5),
+                            margin: EdgeInsets.fromLTRB(5, 20, 5, 15),
                             child: SlimyCard(
                               color: Theme.of(context).primaryColor,
                               width: 380,
                               topCardHeight: 400,
-                              bottomCardHeight: 120,
+                              // bottomCardHeight: 120,
                               borderRadius: _radius,
                               topCardWidget: _topCardWidget(index),
                               bottomCardWidget: _bottomCardWidget(index),
