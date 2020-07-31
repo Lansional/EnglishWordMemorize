@@ -24,6 +24,28 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
   var _newWordValue = [];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _getAllWord();
+  }
+
+  void _getAllWord() {
+    databaseReference
+        .collection('word')
+        .document(widget.arguments == '수능' ? 'CSAT' : widget.arguments)
+        .get()
+        .then((f) {
+      var word = f.data;
+      setState(() {
+        this._newWordKey = word.keys.toList();
+        this._newWordValue = word.values.toList();
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -41,7 +63,11 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.error_outline, size: 100),
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    // Icon(Icons.error_outline, size: 100),
                     Text('\'+\' 아이콘을 클릭하여 단어추가',
                         style: TextStyle(fontSize: 50.sp)),
                     Text('카드를 오른쪽에서 왼쪽으로 스와이프하여 단어를 삭제',
@@ -60,6 +86,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                           onDismissed: (direction) {
                             _listKey.currentState.removeItem(
                                 index, (context, animation) => Container());
+                            _deleteData(index);
                             setState(() {
                               _newWordKey.removeAt(index);
                               _newWordValue.removeAt(index);
@@ -79,9 +106,17 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                     )));
   }
 
+  void _deleteData(int index) {
+    databaseReference
+        .collection('word')
+        .document(widget.arguments == '수능' ? 'CSAT' : widget.arguments)
+        .updateData({_newWordKey[index]: FieldValue.delete()}).whenComplete(() {
+      print('${_newWordKey[index]} Field Deleted');
+    });
+  }
+
   void _updateData() {
     try {
-      //???
       for (int i = 0; i < _newWordKey.length; i++) {
         databaseReference
             .collection('word')
@@ -214,7 +249,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                               ],
                             ),
                           ),
-                          Text('여러가지 뜻이 가지고 있는 단어는 \', \'로 추가해주세요.',
+                          Text('여러가지 뜻을 가지고 있는 단어는 \', \'로 추가해주세요.',
                               style: TextStyle(
                                   fontSize: 30.sp, fontWeight: FontWeight.bold))
                         ],

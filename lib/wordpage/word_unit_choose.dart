@@ -15,6 +15,7 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
     '수능',
     'Unit 12',
     'Unit 13',
+    'Unit 14',
   ];
 
   @override
@@ -63,6 +64,10 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
                             case 2:
                               Navigator.pushNamed(context, '/englishWord',
                                   arguments: '${_documentsName[2]}');
+                              break;
+                            case 3:
+                              Navigator.pushNamed(context, '/englishWord',
+                                  arguments: '${_documentsName[3]}');
                               break;
                             default:
                           }
