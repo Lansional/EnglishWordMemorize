@@ -27,9 +27,6 @@ class _ScorePageState extends State<ScorePage> {
       _index = widget.score['index'];
     });
 
-    print('$_key');
-    print('$_value');
-
     for (int i = 0; i < _score.length; i++) {
       if (_score[i]) {
         setState(() {
@@ -41,6 +38,8 @@ class _ScorePageState extends State<ScorePage> {
 
   @override
   Widget build(BuildContext context) {
+    _increment();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('결과'),
@@ -48,7 +47,7 @@ class _ScorePageState extends State<ScorePage> {
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: Center(
-              child: Text('맞은 개수 : $_correctNum / ${_score.length}'),
+              child: Text('맞은 단어 개수 : $_correctNum  / ${_score.length}'),
             ),
           )
         ],
@@ -77,23 +76,19 @@ class _ScorePageState extends State<ScorePage> {
   }
 
   _increment() async {
-    var list = <String>[];
+    var resultKey = <String>[];
+    var resultValue = <String>[];
 
     for (int i = 0; i < _value.length; i++) {
-      list.add('${_value[i]}');
+      print('$i: ${_score[i]}');
+      if (!_score[i]) {
+        resultKey.add(_key[i]);
+        resultValue.add('${_value[i]}');
+      }
     }
 
-    print(list);
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('score_key', _key);
-    await prefs.setStringList('score_value', list);
-  }
-
-  @override
-  void dispose() {
-    _increment();
-
-    super.dispose();
+    await prefs.setStringList('score_key', resultKey);
+    await prefs.setStringList('score_value', resultValue);
   }
 }

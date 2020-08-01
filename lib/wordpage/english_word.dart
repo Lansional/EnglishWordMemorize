@@ -23,6 +23,8 @@ class _EnglishWordState extends State<EnglishWord> {
   List _wordKey;
   List _wordValue;
 
+  bool _noAnyWrongWord = false;
+
   @override
   void initState() {
     super.initState();
@@ -51,10 +53,22 @@ class _EnglishWordState extends State<EnglishWord> {
     List<String> key = prefs.getStringList('score_key');
     List<String> value = prefs.getStringList('score_value');
 
-    setState(() {
-      this._wordKey = key.map((e) => e).toList();
-      this._wordValue = value.map((e) => e).toList();
-    });
+    if (key == null) {
+      setState(() {
+        _noAnyWrongWord = true;
+      });
+    } else {
+      setState(() {
+        this._wordKey = key.map((e) => e).toList();
+        this._wordValue = value.map((e) => e).toList();
+      });
+
+      prefs.remove('score_key');
+      prefs.remove('score_value');
+      setState(() {
+        _noAnyWrongWord = false;
+      });
+    }
   }
 
   _topCardWidget(int index) => Container(
@@ -80,52 +94,70 @@ class _EnglishWordState extends State<EnglishWord> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.green,
-        body: _wordKey == null && _wordValue == null
+        body: _noAnyWrongWord
             ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Stack(
+                child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Align(
-                      alignment: Alignment.center,
-                      child: Swiper(
-                        itemBuilder: (context, index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(_radius),
-                                border: Border.all(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 5,
-                                )),
-                            padding: EdgeInsets.only(top: 5),
-                            margin: EdgeInsets.fromLTRB(5, 20, 5, 15),
-                            child: SlimyCard(
-                              color: Theme.of(context).primaryColor,
-                              width: 380,
-                              topCardHeight: 400,
-                              // bottomCardHeight: 120,
-                              borderRadius: _radius,
-                              topCardWidget: _topCardWidget(index),
-                              bottomCardWidget: _bottomCardWidget(index),
-                              slimeEnabled: true,
-                            ),
-                          );
-                        },
-                        itemWidth: ScreenUtil.screenWidth,
-                        itemHeight: ScreenUtil.screenHeight,
-                        layout: SwiperLayout.TINDER,
-                        itemCount: _wordKey.length,
-                      )),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                        padding: EdgeInsets.only(
-                            top: ScreenUtil.screenHeightDp -
-                                1850.h), // any device height
-                        child: BackButton(color: Colors.white)),
-                  ),
+                  Icon(Icons.report_problem, color: Colors.white, size: 90),
+                  Text('???? 틀린 단어가 없습니다.',
+                      style: TextStyle(fontSize: 90.sp, color: Colors.white),
+                      textAlign: TextAlign.center),
+                  SizedBox(height: 30.h),
+                  OutlineButton.icon(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(Icons.chevron_left, color: Colors.white),
+                      label:
+                          Text('뒤로 가기', style: TextStyle(color: Colors.white)))
                 ],
-              ));
+              ))
+            : _wordKey == null && _wordValue == null
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Stack(
+                    children: <Widget>[
+                      Align(
+                          alignment: Alignment.center,
+                          child: Swiper(
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.circular(_radius),
+                                    border: Border.all(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 5,
+                                    )),
+                                padding: EdgeInsets.only(top: 5),
+                                margin: EdgeInsets.fromLTRB(5, 20, 5, 15),
+                                child: SlimyCard(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 380,
+                                  topCardHeight: 400,
+                                  // bottomCardHeight: 120,
+                                  borderRadius: _radius,
+                                  topCardWidget: _topCardWidget(index),
+                                  bottomCardWidget: _bottomCardWidget(index),
+                                  slimeEnabled: true,
+                                ),
+                              );
+                            },
+                            itemWidth: ScreenUtil.screenWidth,
+                            itemHeight: ScreenUtil.screenHeight,
+                            layout: SwiperLayout.TINDER,
+                            itemCount: _wordKey.length,
+                          )),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                            padding: EdgeInsets.only(
+                                top: ScreenUtil.screenHeightDp -
+                                    1850.h), // any device height
+                            child: BackButton(color: Colors.white)),
+                      ),
+                    ],
+                  ));
   }
 }

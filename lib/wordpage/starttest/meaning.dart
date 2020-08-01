@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:toast/toast.dart';
 
 class Meaning extends StatefulWidget {
   Meaning({Key key, this.lang}) : super(key: key);
@@ -27,24 +26,23 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
   List _wordKey;
   List _wordValue;
 
-  var _score = <bool>[];
   var _cardList = <Widget>[];
-
   var _randomList = <int>[];
-  var _valueIndex = 0;
+  var _chooseButton = <String>[];
+
+  var _score = <bool>[];
 
   final int _setMaxNum = 5;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _getData();
   }
 
   void _getData() {
-    databaseReference.collection('word').document('Unit 12').get().then((f) {
+    databaseReference.collection('word').document('Unit 14').get().then((f) {
       var wordKey = f.data.keys.toList();
       var wordValue = f.data.values.toList();
 
@@ -53,19 +51,42 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
         this._wordValue = wordValue.getRange(0, _setMaxNum).toList();
       });
 
-      for (int i = 0; i < _wordKey.length; i++) {
+      for (int i = 0; i < _setMaxNum; i++) {
         setState(() {
           this._randomList.add(Random().nextInt(_wordKey.length));
-          this._cardList.add(_swiperCardChildren(i));
+        });
+
+        _score.add(false);
+        _randomButton(i);
+
+        setState(() {
+          _cardList.add(_swiperCardChildren(i));
+          _chooseButton.clear();
         });
       }
-      // print('$_randomList');
     });
+  }
+
+  _randomButton(int index) {
+    int randomNum = 0;
+
+    var thisWord = _randomList[index];
+    // print(thisWord);
+
+    for (int i = 0; i < 4; i++) {
+      setState(() {
+        randomNum = Random().nextInt(_setMaxNum);
+        _chooseButton.add(_wordKey[randomNum]);
+        // print('$i: $randomNum, ${_chooseButton}');
+      });
+    }
+
+    _chooseButton[Random().nextInt(4)] = _wordKey[thisWord];
   }
 
   _swiperCardChildren(int index) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(30, 40, 30, 25),
+      padding: EdgeInsets.fromLTRB(0, 30, 0, 15),
       child: Card(
           elevation: 10,
           shape: RoundedRectangleBorder(
@@ -83,15 +104,51 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
                       height: 200.h,
                     ),
                     Text(
-                        widget.lang['what'] == 'english'
-                            ? '${_wordKey[_randomList[index]]}'
-                            : '${_wordValue[_randomList[index]]}',
-                        style: TextStyle(fontSize: 120.sp)),
-                    // SizedBox(
-                    //   height: 150.h,
-                    // ),
+                      widget.lang['what'] == 'english'
+                          ? '${_wordKey[_randomList[index]]}'
+                          : '${_wordValue[_randomList[index]]}',
+                      style: TextStyle(fontSize: 100.sp),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                    padding: EdgeInsets.only(bottom: 150),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: _chooseButton
+                            .map((String e) => Container(
+                                  width: 550.w,
+                                  height: 150.h,
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: OutlineButton(
+                                    child: Text('$e',
+                                        style: TextStyle(fontSize: 50.sp)),
+                                    onPressed: () {
+                                      if (e == _wordKey[_randomList[index]]) {
+                                        _score[index] = true;
+                                        print('$index: 맞습니다.');
+                                      }
+                                      if (index == _setMaxNum - 1) {
+                                        print('asdf');
+                                        Navigator.pop(context);
+                                        Navigator.pushNamed(context, '/score',
+                                            arguments: {
+                                              'score': _score,
+                                              'key': _wordKey,
+                                              'value': _wordValue,
+                                              'index': _randomList
+                                            });
+                                      } else {
+                                        _swiperController.next();
+                                      }
+                                    },
+                                  ),
+                                ))
+                            .toList())),
               ),
               Align(
                   alignment: Alignment.bottomCenter,
@@ -104,96 +161,13 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
     );
   }
 
-  _stackBody() {
-    return Stack(
-      children: <Widget>[
-        Align(
-            alignment: Alignment.center,
-            child: IgnorePointer(
-              child: Swiper.children(
-                // layout: SwiperLayout.CUSTOM,
-                customLayoutOption: new CustomLayoutOption(
-                        startIndex: -1, stateCount: 3)
-                    .addRotate([-45.0 / 180, 0.0, 45.0 / 180]).addTranslate([
-                  new Offset(-370.0, -40.0),
-                  new Offset(0.0, 0.0),
-                  new Offset(370.0, -40.0)
-                ]),
-                loop: false,
-                // control: SwiperControl(color: Colors.white),
-                // pagination: SwiperPagination(),
-                controller: _swiperController,
-                children: _cardList,
-              ),
-            )),
-        Align(
-          child: Container(
-              width: 600.w,
-              padding: EdgeInsets.only(top: 60),
-              child: TextField(
-                controller: _textEditingController,
-                maxLines: 1,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                onSubmitted: (_) {
-                  String temp = _textEditingController.text.trim();
-                  bool hadCheck = false;
-                  if (widget.lang['what'] == 'english') {
-                    // check the arguments
-                    if (_wordValue[_valueIndex] is String) {
-                      // check the type
-                      if (temp == _wordValue[_valueIndex]) {
-                        hadCheck = true;
-                        // print('O text: $temp, word: ${_wordValue[_valueIndex]}');
-                      }
-                    } else if (_wordValue[_valueIndex] is List) {
-                      List valueList = _wordValue[_valueIndex];
-                      for (int i = 0; i < valueList.length; i++) {
-                        if (temp == _wordValue[_valueIndex][i]) {
-                          hadCheck = true;
-                          break;
-                        }
-                      }
-                    }
-                  } else if (widget.lang['what'] == 'korean') {
-                    if (temp == _wordValue[_valueIndex]) {
-                      hadCheck = true;
-                    }
-                  }
-
-                  if (hadCheck) {
-                    print(
-                        'O text: $temp, word: ${_wordValue[_randomList[_valueIndex]]}');
-                    Toast.show('맞았습니다.', context, duration: 2);
-                    _score.add(true);
-                  } else {
-                    print(
-                        'X text: $temp, word: ${_wordValue[_randomList[_valueIndex]]}');
-                    Toast.show('틀렸습니다.', context, duration: 2);
-                    _score.add(false);
-                  }
-
-                  _swiperController.next();
-
-                  _textEditingController.clear();
-                  setState(() {
-                    this._valueIndex++;
-                  });
-                  if (_valueIndex >= _wordKey.length) {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/score', arguments: {
-                      'key': _wordKey,
-                      'value': _wordValue,
-                      'score': _score,
-                      'index': _randomList
-                    });
-                  }
-                },
-              )),
-        )
-      ],
+  _cardBody() {
+    return Swiper.children(
+      viewportFraction: 0.8,
+      scale: 0.9,
+      loop: false,
+      controller: _swiperController,
+      children: _cardList,
     );
   }
 
@@ -207,6 +181,6 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : _stackBody());
+            : _cardBody());
   }
 }
