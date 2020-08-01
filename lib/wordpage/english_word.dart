@@ -150,6 +150,16 @@ class _EnglishWordState extends State<EnglishWord> {
                             itemCount: _wordKey.length,
                           )),
                       Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                            padding: EdgeInsets.only(top: 50),
+                            child: Text(
+                              '* 괄호안에 있는 영어단어는 동의어 입니다.',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 40.sp),
+                            )),
+                      ),
+                      Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
                             padding: EdgeInsets.only(

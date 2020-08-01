@@ -80,7 +80,6 @@ class _ScorePageState extends State<ScorePage> {
     var resultValue = <String>[];
 
     for (int i = 0; i < _value.length; i++) {
-      print('$i: ${_score[i]}');
       if (!_score[i]) {
         resultKey.add(_key[i]);
         resultValue.add('${_value[i]}');
