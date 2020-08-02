@@ -8,9 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class Meaning extends StatefulWidget {
-  Meaning({Key key, this.lang}) : super(key: key);
+  Meaning({Key key, this.arguments}) : super(key: key);
 
-  final Map lang;
+  final Map arguments;
 
   @override
   _MeaningState createState() => _MeaningState();
@@ -20,8 +20,6 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
   final databaseReference = Firestore.instance;
 
   final SwiperController _swiperController = new SwiperController();
-  final TextEditingController _textEditingController =
-      new TextEditingController();
 
   List _wordKey;
   List _wordValue;
@@ -32,7 +30,9 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
 
   var _score = <bool>[];
 
-  final int _setMaxNum = 5;
+  final int _setMaxNum = 20;
+
+  // var _buttonColor = Colors.red;
 
   @override
   void initState() {
@@ -42,7 +42,11 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
   }
 
   void _getData() {
-    databaseReference.collection('word').document('Unit 14').get().then((f) {
+    databaseReference
+        .collection('word')
+        .document(widget.arguments['unit'])
+        .get()
+        .then((f) {
       var wordKey = f.data.keys.toList();
       var wordValue = f.data.values.toList();
 
@@ -104,9 +108,7 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
                       height: 200.h,
                     ),
                     Text(
-                      widget.lang['what'] == 'english'
-                          ? '${_wordKey[_randomList[index]]}'
-                          : '${_wordValue[_randomList[index]]}',
+                      '${_wordValue[_randomList[index]]}',
                       style: TextStyle(fontSize: 100.sp),
                       textAlign: TextAlign.center,
                     ),

@@ -31,8 +31,12 @@ class _ValidatorPageState extends State<ValidatorPage> {
                     child: Text('확인'),
                     onPressed: () {
                       Navigator.pop(context);
-                      Navigator.pushNamed(context, '/meaning',
-                          arguments: widget.check);
+                      Navigator.pushNamed(context, '/wordUnitChoose',
+                          arguments: {
+                            'test': false,
+                          });
+                      // Navigator.pushNamed(context, '/meaning',
+                      //     arguments: widget.check);
                     }),
                 RaisedButton(
                     color: Colors.red,

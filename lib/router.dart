@@ -15,10 +15,11 @@ final routes = {
 
   '/validator': (context, {arguments}) => ValidatorPage(check: arguments),
 
-  '/wordUnitChoose': (context) => WordUnitChoose(),
+  '/wordUnitChoose': (context, {arguments}) =>
+      WordUnitChoose(arguments: arguments),
   '/englishWord': (context, {arguments}) => EnglishWord(documents: arguments),
 
-  '/meaning': (context, {arguments}) => Meaning(lang: arguments),
+  '/meaning': (context, {arguments}) => Meaning(arguments: arguments),
   '/score': (context, {arguments}) => ScorePage(score: arguments),
 
   '/addWord': (context, {arguments}) => AddWord(arguments: arguments),

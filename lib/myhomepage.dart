@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:english_word_memorize/documentsNameEnum.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
@@ -30,13 +31,6 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime _backbuttonpressedTime;
 
   var _cardSide = BorderSide(color: Colors.white, width: 4);
-
-  List _documentsName = [
-    '수능',
-    'Unit 12',
-    'Unit 13',
-    'Unit 14',
-  ];
 
   @override
   void initState() {
@@ -69,39 +63,19 @@ class _MyHomePageState extends State<MyHomePage> {
               side: _cardSide),
           onPressed: () {
             // print('한글보고 영어 쓰기');
-            Navigator.pushNamed(context, '/validator',
-                arguments: {'what': 'korean'});
+            Navigator.pushNamed(context, '/validator');
           },
           elevation: 10,
-          child: Text('한글보고 영어 쓰기',
+          child: Text('단어 테스트',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: _cardTextSize.sp)),
         ));
   }
 
-  // Write in Korean for English report
-  _cardToKorTap() {
-    return Container(
-        width: _cardWidth.w,
-        height: _cardHeight.h,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
-              side: _cardSide),
-          onPressed: () {
-            Navigator.pushNamed(context, '/validator',
-                arguments: {'what': 'english'});
-          },
-          elevation: 10,
-          child:
-              Text('영어보고 뜻 쓰기', style: TextStyle(fontSize: _cardTextSize.sp)),
-        ));
-  }
-
   _vocabularyNote() {
     return Container(
-      width: (_cardWidth / 2 - 12).w,
-      height: (_cardHeight - 12).h,
+      width: _cardWidth.w,
+      height: _cardHeight.h,
       child: RaisedButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
@@ -120,8 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _wrongWordNote() {
     return Container(
-      width: (_cardWidth / 2 - 12).w,
-      height: (_cardHeight - 12).h,
+      width: _cardWidth.w,
+      height: _cardHeight.h,
       child: RaisedButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
@@ -145,20 +119,11 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: _everyButtonHeight.h,
           ),
-          _cardToKorTap(),
+          _vocabularyNote(),
           SizedBox(
             height: _everyButtonHeight.h,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _vocabularyNote(),
-              SizedBox(
-                width: 30.w,
-              ),
-              _wrongWordNote()
-            ],
-          )
+          _wrongWordNote()
         ],
       ),
     );
@@ -242,15 +207,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
                   child: ListView.builder(
-                      itemCount: _documentsName.length,
+                      itemCount: unit.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text('${_documentsName[index]}'),
+                          title: Text('${unit[index]}'),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: () {
                             Navigator.pop(context);
                             Navigator.pushNamed(context, '/addWord',
-                                arguments: '${_documentsName[index]}');
+                                arguments: '${unit[index]}');
                           },
                         );
                       }),
