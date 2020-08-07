@@ -93,7 +93,9 @@ class _EnglishWordState extends State<EnglishWord> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.green
+            : null,
         body: _noAnyWrongWord
             ? Center(
                 child: Column(
@@ -131,12 +133,12 @@ class _EnglishWordState extends State<EnglishWord> {
                                       width: 5,
                                     )),
                                 padding: EdgeInsets.only(top: 5),
-                                margin: EdgeInsets.fromLTRB(5, 20, 5, 15),
+                                margin: EdgeInsets.fromLTRB(5, 35, 5, 50),
                                 child: SlimyCard(
                                   color: Theme.of(context).primaryColor,
                                   width: 380,
                                   topCardHeight: 400,
-                                  // bottomCardHeight: 120,
+                                  bottomCardHeight: 100,
                                   borderRadius: _radius,
                                   topCardWidget: _topCardWidget(index),
                                   bottomCardWidget: _bottomCardWidget(index),
@@ -152,11 +154,12 @@ class _EnglishWordState extends State<EnglishWord> {
                       Align(
                         alignment: Alignment.topCenter,
                         child: Padding(
-                            padding: EdgeInsets.only(top: 50),
+                            padding: EdgeInsets.only(top: 65),
                             child: Text(
                               '* 괄호안에 있는 영어단어는 동의어 입니다.',
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 40.sp),
+                                  color: Colors.white,
+                                  fontSize: 40.sp),
                             )),
                       ),
                       Align(
@@ -164,7 +167,7 @@ class _EnglishWordState extends State<EnglishWord> {
                         child: Padding(
                             padding: EdgeInsets.only(
                                 top: ScreenUtil.screenHeightDp -
-                                    1850.h), // any device height
+                                    1800.h), // any device height
                             child: BackButton(color: Colors.white)),
                       ),
                     ],

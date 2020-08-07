@@ -55,7 +55,10 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _updateData(),
+          onPressed: () {
+            _updateData();
+            Navigator.pop(context);
+          },
           child: Icon(Icons.done, color: Colors.white),
         ),
         body: _newWordKey.isEmpty
@@ -127,7 +130,6 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
       print(e);
     }
     Toast.show('업로드 되었습니다.', context);
-    // Navigator.pop(context);
   }
 
   void _addChildren() {

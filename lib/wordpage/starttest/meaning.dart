@@ -90,7 +90,7 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
 
   _swiperCardChildren(int index) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 30, 0, 15),
+      padding: EdgeInsets.fromLTRB(0, 100, 0, 50),
       child: Card(
           elevation: 10,
           shape: RoundedRectangleBorder(
@@ -109,7 +109,7 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
                     ),
                     Text(
                       '${_wordValue[_randomList[index]]}',
-                      style: TextStyle(fontSize: 100.sp),
+                      style: TextStyle(fontSize: 90.sp),
                       textAlign: TextAlign.center,
                     ),
                   ],

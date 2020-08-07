@@ -32,40 +32,37 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side:
-                                  BorderSide(width: 30.w, color: Colors.white),
-                            ),
-                            color: Colors.blue,
-                            elevation: 4,
-                            child: Container(
-                              child: Center(
-                                child: Text('${unit[index]}',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 160.sp)),
-                              ),
-                            )),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(width: 30.w, color: Colors.white),
+                          ),
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.black,
+                          elevation: 4,
+                          child: Center(
+                            child: Text('${unit[index]}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 160.sp)),
+                          ),
+                        ),
                         onTap: () {
-                          // Navigator.pop(context);
+                          Navigator.pop(context);
                           if (widget.arguments['test']) {
                             switch (index) {
                               case 0:
                                 Navigator.pushNamed(context, '/englishWord',
-                                    arguments: '${unit[0]}');
+                                    arguments: unit[0]);
                                 break;
                               case 1:
                                 Navigator.pushNamed(context, '/englishWord',
-                                    arguments: '${unit[1]}');
+                                    arguments: unit[1]);
                                 break;
                               case 2:
                                 Navigator.pushNamed(context, '/englishWord',
-                                    arguments: '${unit[2]}');
-                                break;
-                              case 3:
-                                Navigator.pushNamed(context, '/englishWord',
-                                    arguments: '${unit[3]}');
+                                    arguments: unit[2]);
                                 break;
                               default:
                             }
@@ -82,10 +79,6 @@ class _WordUnitChooseState extends State<WordUnitChoose> {
                               case 2:
                                 Navigator.pushNamed(context, '/meaning',
                                     arguments: {'unit': unit[2]});
-                                break;
-                              case 3:
-                                Navigator.pushNamed(context, '/meaning',
-                                    arguments: {'unit': unit[3]});
                                 break;
                               default:
                             }

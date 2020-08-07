@@ -142,6 +142,20 @@
             </list>
           </value>
         </entry>
+        <entry key="flare_dart">
+          <value>
+            <list>
+              <option value="E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/flare_dart-2.3.4/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flare_flutter">
+          <value>
+            <list>
+              <option value="E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/flare_flutter-2.0.5/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter">
           <value>
             <list>
@@ -181,27 +195,6 @@
           <value>
             <list>
               <option value="E:/Result/Framework/flutter/packages/flutter_web_plugins/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="google_sign_in">
-          <value>
-            <list>
-              <option value="E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-4.5.1/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="google_sign_in_platform_interface">
-          <value>
-            <list>
-              <option value="E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_platform_interface-1.1.2/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="google_sign_in_web">
-          <value>
-            <list>
-              <option value="E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.9.1+1/lib" />
             </list>
           </value>
         </entry>
@@ -331,6 +324,13 @@
             </list>
           </value>
         </entry>
+        <entry key="slimy_card">
+          <value>
+            <list>
+              <option value="E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/slimy_card-1.0.4/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="source_span">
           <value>
             <list>
@@ -438,12 +438,11 @@
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.5/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_platform_interface-1.0.4/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.1.1+2/lib" />
+      <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/flare_dart-2.3.4/lib" />
+      <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/flare_flutter-2.0.5/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_page_indicator-0.0.3/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_screenutil-1.1.0/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_swiper-1.1.6/lib" />
-      <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-4.5.1/lib" />
-      <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_platform_interface-1.1.2/lib" />
-      <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.9.1+1/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.12.1/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-3.1.4/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/image-2.1.12/lib" />
@@ -461,6 +460,7 @@
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_platform_interface-1.0.4/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+7/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.1.4/lib" />
+      <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/slimy_card-1.0.4/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.7.0/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.9.3/lib" />
       <root url="file://E:/Result/Framework/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.0.0/lib" />

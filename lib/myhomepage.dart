@@ -58,6 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
         width: _cardWidth.w,
         height: _cardHeight.h,
         child: RaisedButton(
+          color: Theme.of(context).brightness == Brightness.light
+              ? null
+              : Colors.black,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
               side: _cardSide),
@@ -77,14 +80,15 @@ class _MyHomePageState extends State<MyHomePage> {
       width: _cardWidth.w,
       height: _cardHeight.h,
       child: RaisedButton(
+        color: Theme.of(context).brightness == Brightness.light
+            ? null
+            : Colors.black,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
             side: _cardSide),
         onPressed: () {
-          Navigator.pushNamed(
-            context,
-            '/wordUnitChoose',
-          );
+          Navigator.pushNamed(context, '/wordUnitChoose',
+              arguments: {'test': true});
         },
         elevation: 10,
         child: Text('단어장', style: TextStyle(fontSize: _cardTextSize.sp)),
@@ -97,6 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
       width: _cardWidth.w,
       height: _cardHeight.h,
       child: RaisedButton(
+        color: Theme.of(context).brightness == Brightness.light
+            ? null
+            : Colors.black,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(80.w)),
             side: _cardSide),
