@@ -64,7 +64,7 @@ class _CalendarPageState extends State<CalendarPage> {
               borderRadius: BorderRadius.circular(16.0),
             ),
           ),
-          onDaySelected: _onDaySelected,
+          // onDaySelected: _onDaySelected,
           onVisibleDaysChanged: _onVisibleDaysChanged,
           onCalendarCreated: _onCalendarCreated,
         ));

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
+// import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:english_word_memorize/documentsNameEnum.dart';
 import 'package:flutter/material.dart';
 
@@ -164,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   IconButton(
                       icon: Icon(Icons.lightbulb_outline, color: Colors.white),
-                      onPressed: () => _changeBrightness())
+                      onPressed: () => {})
                 ],
               ),
             )),
@@ -233,12 +233,12 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  void _changeBrightness() {
-    DynamicTheme.of(context).setBrightness(
-        Theme.of(context).brightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark);
-  }
+  // void _changeBrightness() {
+  //   DynamicTheme.of(context).setBrightness(
+  //       Theme.of(context).brightness == Brightness.dark
+  //           ? Brightness.light
+  //           : Brightness.dark);
+  // }
 
   // double back to close
   Future<bool> _onWillPop() async {

@@ -1,4 +1,4 @@
-import 'package:dynamic_theme/dynamic_theme.dart';
+// import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 
 class SettingPage extends StatefulWidget {
@@ -9,10 +9,10 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  void _changeBrightness() {
-    DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
-  }
-  
+  // void _changeBrightness() {
+  //   DynamicTheme.of(context).setBrightness(Theme.of(context).brightness == Brightness.dark? Brightness.light: Brightness.dark);
+  // }
+
   // void changeColor() {
   //   DynamicTheme.of(context).setThemeData(new ThemeData(
   //       primaryColor: Theme.of(context).primaryColor == Colors.indigo? Colors.red: Colors.indigo
@@ -31,7 +31,7 @@ class _SettingPageState extends State<SettingPage> {
             title: Text('디자인'),
             subtitle: Text('테마 바꾸기'),
             onTap: () {
-              _changeBrightness();
+              // _changeBrightness();
             },
           )
         ],

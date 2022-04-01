@@ -158,8 +158,7 @@ class _EnglishWordState extends State<EnglishWord> {
                             child: Text(
                               '* 괄호안에 있는 영어단어는 동의어 입니다.',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 40.sp),
+                                  color: Colors.white, fontSize: 40.sp),
                             )),
                       ),
                       Align(
