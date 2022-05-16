@@ -42,11 +42,7 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
   }
 
   void _getData() {
-    databaseReference
-        .collection('word')
-        .document(widget.arguments['unit'])
-        .get()
-        .then((f) {
+    databaseReference.collection('word').document(widget.arguments['unit']).get().then((f) {
       var wordKey = f.data.keys.toList();
       var wordValue = f.data.values.toList();
 
@@ -95,8 +91,7 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
           elevation: 10,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side:
-                BorderSide(width: 20.w, color: Theme.of(context).primaryColor),
+            side: BorderSide(width: 20.w, color: Theme.of(context).primaryColor),
           ),
           child: Stack(
             children: <Widget>[
@@ -126,9 +121,8 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
                                   width: 550.w,
                                   height: 150.h,
                                   padding: EdgeInsets.only(top: 10),
-                                  child: OutlineButton(
-                                    child: Text('$e',
-                                        style: TextStyle(fontSize: 50.sp)),
+                                  child: OutlinedButton(
+                                    child: Text('$e', style: TextStyle(fontSize: 50.sp)),
                                     onPressed: () {
                                       if (e == _wordKey[_randomList[index]]) {
                                         _score[index] = true;
@@ -137,13 +131,12 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
                                       if (index == _setMaxNum - 1) {
                                         print('asdf');
                                         Navigator.pop(context);
-                                        Navigator.pushNamed(context, '/score',
-                                            arguments: {
-                                              'score': _score,
-                                              'key': _wordKey,
-                                              'value': _wordValue,
-                                              'index': _randomList
-                                            });
+                                        Navigator.pushNamed(context, '/score', arguments: {
+                                          'score': _score,
+                                          'key': _wordKey,
+                                          'value': _wordValue,
+                                          'index': _randomList
+                                        });
                                       } else {
                                         _swiperController.next();
                                       }
@@ -176,9 +169,7 @@ class _MeaningState extends State<Meaning> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.green
-            : null,
+        backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.green : null,
         body: _wordKey == null && _wordValue == null
             ? Center(
                 child: CircularProgressIndicator(),

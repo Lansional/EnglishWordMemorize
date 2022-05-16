@@ -34,11 +34,7 @@ class _EnglishWordState extends State<EnglishWord> {
 
   // get data at firebase cloudstore
   void _getData() {
-    databaseReference
-        .collection('word')
-        .document(widget.documents)
-        .get()
-        .then((f) {
+    databaseReference.collection('word').document(widget.documents).get().then((f) {
       var word = f.data;
       setState(() {
         this._wordKey = word.keys.toList();
@@ -73,44 +69,35 @@ class _EnglishWordState extends State<EnglishWord> {
 
   _topCardWidget(int index) => Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(_radius)),
-          border: Border.all(width: 5, color: Colors.white)),
+          borderRadius: BorderRadius.all(Radius.circular(_radius)), border: Border.all(width: 5, color: Colors.white)),
       child: Center(
-        child: Text('${_wordKey[index]}',
-            style: TextStyle(fontSize: 120.sp, color: Colors.white)),
+        child: Text('${_wordKey[index]}', style: TextStyle(fontSize: 120.sp, color: Colors.white)),
       ));
 
   _bottomCardWidget(int index) => Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(_radius)),
-            border: Border.all(width: 5, color: Colors.white)),
+            borderRadius: BorderRadius.all(Radius.circular(_radius)), border: Border.all(width: 5, color: Colors.white)),
         child: Center(
-          child: Text('${_wordValue[index]}',
-              style: TextStyle(fontSize: 50.sp, color: Colors.white)),
+          child: Text('${_wordValue[index]}', style: TextStyle(fontSize: 50.sp, color: Colors.white)),
         ),
       );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.light
-            ? Colors.green
-            : null,
+        backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.green : null,
         body: _noAnyWrongWord
             ? Center(
                 child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(Icons.report_problem, color: Colors.white, size: 90),
-                  Text('???? 틀린 단어가 없습니다.',
-                      style: TextStyle(fontSize: 90.sp, color: Colors.white),
-                      textAlign: TextAlign.center),
+                  Text('???? 틀린 단어가 없습니다.', style: TextStyle(fontSize: 90.sp, color: Colors.white), textAlign: TextAlign.center),
                   SizedBox(height: 30.h),
-                  OutlineButton.icon(
+                  OutlinedButton.icon(
                       onPressed: () => Navigator.pop(context),
                       icon: Icon(Icons.chevron_left, color: Colors.white),
-                      label:
-                          Text('뒤로 가기', style: TextStyle(color: Colors.white)))
+                      label: Text('뒤로 가기', style: TextStyle(color: Colors.white)))
                 ],
               ))
             : _wordKey == null && _wordValue == null
@@ -126,8 +113,7 @@ class _EnglishWordState extends State<EnglishWord> {
                               return Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius:
-                                        BorderRadius.circular(_radius),
+                                    borderRadius: BorderRadius.circular(_radius),
                                     border: Border.all(
                                       color: Theme.of(context).primaryColor,
                                       width: 5,
@@ -157,16 +143,13 @@ class _EnglishWordState extends State<EnglishWord> {
                             padding: EdgeInsets.only(top: 65),
                             child: Text(
                               '* 괄호안에 있는 영어단어는 동의어 입니다.',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 40.sp),
+                              style: TextStyle(color: Colors.white, fontSize: 40.sp),
                             )),
                       ),
                       Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
-                            padding: EdgeInsets.only(
-                                top: ScreenUtil.screenHeightDp -
-                                    1800.h), // any device height
+                            padding: EdgeInsets.only(top: ScreenUtil.screenHeightDp - 1800.h), // any device height
                             child: BackButton(color: Colors.white)),
                       ),
                     ],

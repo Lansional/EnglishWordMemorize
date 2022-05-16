@@ -32,11 +32,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
   }
 
   void _getAllWord() {
-    databaseReference
-        .collection('word')
-        .document(widget.arguments == '수능' ? 'CSAT' : widget.arguments)
-        .get()
-        .then((f) {
+    databaseReference.collection('word').document(widget.arguments == '수능' ? 'CSAT' : widget.arguments).get().then((f) {
       var word = f.data;
       setState(() {
         this._newWordKey = word.keys.toList();
@@ -50,9 +46,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
     return Scaffold(
         appBar: AppBar(
           title: Text('단어추가 (${widget.arguments})'),
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.add), onPressed: () => _addChildren())
-          ],
+          actions: <Widget>[IconButton(icon: Icon(Icons.add), onPressed: () => _addChildren())],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -71,10 +65,8 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                       height: 30,
                     ),
                     // Icon(Icons.error_outline, size: 100),
-                    Text('\'+\' 아이콘을 클릭하여 단어추가',
-                        style: TextStyle(fontSize: 50.sp)),
-                    Text('카드를 오른쪽에서 왼쪽으로 스와이프하여 단어를 삭제',
-                        style: TextStyle(fontSize: 30.sp)),
+                    Text('\'+\' 아이콘을 클릭하여 단어추가', style: TextStyle(fontSize: 50.sp)),
+                    Text('카드를 오른쪽에서 왼쪽으로 스와이프하여 단어를 삭제', style: TextStyle(fontSize: 30.sp)),
                   ],
                 ),
               )
@@ -87,8 +79,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                       child: Dismissible(
                           key: Key(_newWordKey[index]),
                           onDismissed: (direction) {
-                            _listKey.currentState.removeItem(
-                                index, (context, animation) => Container());
+                            _listKey.currentState.removeItem(index, (context, animation) => Container());
                             _deleteData(index);
                             setState(() {
                               _newWordKey.removeAt(index);
@@ -99,8 +90,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                             child: Container(color: Colors.red),
                           ),
                           child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                             child: ListTile(
                               title: Text('${_newWordKey[index]}'),
                               subtitle: Text('${_newWordValue[index]}'),
@@ -140,8 +130,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               content: SizedBox(
                   width: width.w,
                   height: height.h,
@@ -164,10 +153,8 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                                       }
                                       return null;
                                     },
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15))),
+                                    decoration:
+                                        InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
                                   ),
                                 ),
                               )
@@ -191,10 +178,8 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                                       }
                                       return null;
                                     },
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15))),
+                                    decoration:
+                                        InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
                                   ),
                                 ),
                               )
@@ -204,7 +189,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                             padding: EdgeInsets.fromLTRB(260.h, 30.h, 0, 10.h),
                             child: Row(
                               children: <Widget>[
-                                OutlineButton(
+                                OutlinedButton(
                                     child: Text('확인'),
                                     onPressed: () {
                                       String word = _engWord.text.trim();
@@ -223,8 +208,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
 
                                         if (_newWordKey.length > 1) {
                                           int index = _newWordKey.length - 1;
-                                          _listKey.currentState
-                                              .insertItem(index);
+                                          _listKey.currentState.insertItem(index);
                                         }
 
                                         setState(() {
@@ -238,9 +222,8 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                                 SizedBox(
                                   width: 30.w,
                                 ),
-                                OutlineButton(
-                                    child: Text('취소',
-                                        style: TextStyle(color: Colors.red)),
+                                OutlinedButton(
+                                    child: Text('취소', style: TextStyle(color: Colors.red)),
                                     onPressed: () {
                                       setState(() {
                                         _engWord.text = '';
@@ -252,8 +235,7 @@ class _AddWordState extends State<AddWord> with SingleTickerProviderStateMixin {
                             ),
                           ),
                           Text('여러가지 뜻을 가지고 있는 단어는 \', \'로 추가해주세요.',
-                              style: TextStyle(
-                                  fontSize: 30.sp, fontWeight: FontWeight.bold))
+                              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold))
                         ],
                       ))),
             ));
